@@ -19,19 +19,32 @@ struct led_data {
     struct led_PackedColor color;
 }__attribute__((packed));
 
+/*
+Notes on dotstars:
+https://cpldcpu.wordpress.com/2014/08/27/apa102/
+people have seen global brightness below (30?) cause flickering, so ignore it
+someone pointed out endframe is no different looking then a full bright LED (which
+sort of matches behavior I've seen....). So omit that too.
+
+*/
+
 //0x7 is a constant
-static const struct led_data led50 = {0x7, 0x2, {255/10, 255/10, 255/10}};
+//hdr, 5 bit global brightness divisor, each channel
+//0x1F is max current
+static const struct led_data led50 = {0x7, 0x1F/2, {255/10, 255/10, 255/10}};
+static const struct led_data led0 = {0x7, 0x0, {0, 0, 0}};
 
 int main()
 {
     CyGlobalIntEnable;
 
-    
-    SPI_Clock_Start();
     SPI_LED_Start();
 
+    
+    struct led_data wat = {0x7, 0x8, {0, 0, 10}};
+    
     uint8_t count = 0;
-    int len, j;
+    int len, j, i;
     uint8_t buf[100];
     for(;;) {
         
@@ -41,8 +54,10 @@ int main()
         SPI_LED_WriteByte(0x00);
         SPI_LED_WriteByte(0x00);
         
-        //1 LED
-        SPI_LED_PutArray((uint8_t*)&led50, sizeof(led50));
+        for(i = 0; i < 6; i++) {
+            //1 LED
+            SPI_LED_PutArray((uint8_t*)&wat, sizeof(wat));
+        }
         
         //end frame
         SPI_LED_WriteByte(0xFF);
@@ -50,31 +65,7 @@ int main()
         SPI_LED_WriteByte(0xFF);
         SPI_LED_WriteByte(0xFF);
         
-        
-        /*
-        //start frame
-        j = 0;
-        buf[j++] = 0x00;
-        buf[j++] = 0x00;
-        buf[j++] = 0x00;
-        buf[j++] = 0x00;
-        
-        //6 LEDs of data (4 bytes)
-        
-        //stop frame
-        buf[j++] = 0xFF;
-        buf[j++] = 0xFF;
-        buf[j++] = 0xFF;
-        buf[j++] = 0xFF;
-        
-        //data len
-        len = j - 1;
-        
-        //blast it out
-        SPI_LED_PutArray(buf, len);
-        */
-        
-        CyDelay(1000);
+        CyDelay(500);
         count++;
     }
 }
