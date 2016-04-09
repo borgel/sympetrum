@@ -41,12 +41,13 @@ int main()
     SPI_LED_Start();
 
     
-    struct led_data wat = {0x7, 0x1F, {0, 0, 10}};
+    struct led_data wat = {LED_PACKET_HEADER, 31, {0, 5, 0}};
     
     uint8_t count = 0;
     int len, j, i;
     uint8_t buf[100];
     
+    /*
     //start frame
     buf[0] = buf[1] = buf[2] = buf[3] = 0x00;
     
@@ -66,32 +67,33 @@ int main()
     buf[12] = buf[13] = buf[14] = buf[15] = 0xFF;
     
     SPI_LED_PutArray(buf, 16);
+    */
+    
+    
+            
+    /*
+    SPI_LED_WriteByte(0x70);    //3 1's + full global brightness    0xFF for full bright. 0x70 for no bright
+    SPI_LED_WriteByte(0x00);    //b
+    SPI_LED_WriteByte(0x00);    //g
+    SPI_LED_WriteByte(0x00);    //r
+    */
     
     for(;;) {
-        
-        /*
         //start frame
         SPI_LED_WriteByte(0x00);
         SPI_LED_WriteByte(0x00);
         SPI_LED_WriteByte(0x00);
         SPI_LED_WriteByte(0x00);
         
-        for(i = 0; i < 1; i++) {
+        for(i = 0; i < 6; i++) {
             //1 LED
-            //SPI_LED_PutArray((uint8_t*)&wat, sizeof(wat));
-            
-            SPI_LED_WriteByte(0xFF);    //3 1's + full global brightness
-            SPI_LED_WriteByte(0x00);    //b
-            SPI_LED_WriteByte(0x00);    //g
-            SPI_LED_WriteByte(0xFF);    //r
+            SPI_LED_PutArray((uint8_t*)&wat, sizeof(wat));
         }
         
-        
         SPI_LED_WriteByte(0xFF);
         SPI_LED_WriteByte(0xFF);
         SPI_LED_WriteByte(0xFF);
         SPI_LED_WriteByte(0xFF);
-        */
         
         
         CyDelay(500);
