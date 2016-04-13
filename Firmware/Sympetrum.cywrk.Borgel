@@ -50,25 +50,72 @@
 <v>Sympetrum\Firmware\Generated_Source\PSoC4\cy_lfclk</v>
 <v>Sympetrum\Firmware\Generated_Source\PSoC4\cy_lfclk\CyLFClk.c</v>
 <v>Sympetrum\Firmware\Generated_Source\PSoC4\cy_lfclk\CyLFClk.h</v>
-<v>Sympetrum\Firmware\Generated_Source\PSoC4\DotStar_MOSI</v>
-<v>Sympetrum\Firmware\Generated_Source\PSoC4\DotStar_MOSI\DotStar_MOSI.c</v>
-<v>Sympetrum\Firmware\Generated_Source\PSoC4\DotStar_MOSI\DotStar_MOSI.h</v>
-<v>Sympetrum\Firmware\Generated_Source\PSoC4\DotStar_MOSI\DotStar_MOSI_aliases.h</v>
-<v>Sympetrum\Firmware\Generated_Source\PSoC4\DotStar_MOSI\DotStar_MOSI_PM.c</v>
-<v>Sympetrum\Firmware\Generated_Source\PSoC4\DotStar_SCK</v>
-<v>Sympetrum\Firmware\Generated_Source\PSoC4\DotStar_SCK\DotStar_SCK.c</v>
-<v>Sympetrum\Firmware\Generated_Source\PSoC4\DotStar_SCK\DotStar_SCK.h</v>
-<v>Sympetrum\Firmware\Generated_Source\PSoC4\DotStar_SCK\DotStar_SCK_aliases.h</v>
-<v>Sympetrum\Firmware\Generated_Source\PSoC4\DotStar_SCK\DotStar_SCK_PM.c</v>
+<v>Sympetrum\Firmware\Generated_Source\PSoC4\CyIR_Data_CLK</v>
+<v>Sympetrum\Firmware\Generated_Source\PSoC4\CyIR_Data_CLK\CyIR_Data_CLK.c</v>
+<v>Sympetrum\Firmware\Generated_Source\PSoC4\CyIR_Data_CLK\CyIR_Data_CLK.h</v>
+<v>Sympetrum\Firmware\Generated_Source\PSoC4\CyIR_Signal_CLK</v>
+<v>Sympetrum\Firmware\Generated_Source\PSoC4\CyIR_Signal_CLK\CyIR_Signal_CLK.c</v>
+<v>Sympetrum\Firmware\Generated_Source\PSoC4\CyIR_Signal_CLK\CyIR_Signal_CLK.h</v>
+<v>Sympetrum\Firmware\Generated_Source\PSoC4\IR_Clk_1</v>
+<v>Sympetrum\Firmware\Generated_Source\PSoC4\IR_Clk_1\IR_Clk_1.c</v>
+<v>Sympetrum\Firmware\Generated_Source\PSoC4\IR_Clk_1\IR_Clk_1.h</v>
+<v>Sympetrum\Firmware\Generated_Source\PSoC4\IR_Debug</v>
+<v>Sympetrum\Firmware\Generated_Source\PSoC4\IR_Debug\IR_Debug.c</v>
+<v>Sympetrum\Firmware\Generated_Source\PSoC4\IR_Debug\IR_Debug.h</v>
+<v>Sympetrum\Firmware\Generated_Source\PSoC4\IR_Debug\IR_Debug_aliases.h</v>
+<v>Sympetrum\Firmware\Generated_Source\PSoC4\IR_Debug\IR_Debug_PM.c</v>
+<v>Sympetrum\Firmware\Generated_Source\PSoC4\IR_Debug_No_Manchester</v>
+<v>Sympetrum\Firmware\Generated_Source\PSoC4\IR_Debug_No_Manchester\IR_Debug_No_Manchester.c</v>
+<v>Sympetrum\Firmware\Generated_Source\PSoC4\IR_Debug_No_Manchester\IR_Debug_No_Manchester.h</v>
+<v>Sympetrum\Firmware\Generated_Source\PSoC4\IR_Debug_No_Manchester\IR_Debug_No_Manchester_aliases.h</v>
+<v>Sympetrum\Firmware\Generated_Source\PSoC4\IR_Debug_No_Manchester\IR_Debug_No_Manchester_PM.c</v>
+<v>Sympetrum\Firmware\Generated_Source\PSoC4\IR_Receiver</v>
+<v>Sympetrum\Firmware\Generated_Source\PSoC4\IR_Receiver\IR_Receiver.c</v>
+<v>Sympetrum\Firmware\Generated_Source\PSoC4\IR_Receiver\IR_Receiver.h</v>
+<v>Sympetrum\Firmware\Generated_Source\PSoC4\IR_Receiver\IR_Receiver_aliases.h</v>
+<v>Sympetrum\Firmware\Generated_Source\PSoC4\IR_Receiver\IR_Receiver_PM.c</v>
+<v>Sympetrum\Firmware\Generated_Source\PSoC4\IR_Transmit</v>
+<v>Sympetrum\Firmware\Generated_Source\PSoC4\IR_Transmit\IR_Transmit.c</v>
+<v>Sympetrum\Firmware\Generated_Source\PSoC4\IR_Transmit\IR_Transmit.h</v>
+<v>Sympetrum\Firmware\Generated_Source\PSoC4\IR_Transmit\IR_Transmit_INT.c</v>
+<v>Sympetrum\Firmware\Generated_Source\PSoC4\IR_Transmit\IR_Transmit_PM.c</v>
+<v>Sympetrum\Firmware\Generated_Source\PSoC4\IR_Transmit\IR_Transmit_PVT.h</v>
+<v>Sympetrum\Firmware\Generated_Source\PSoC4\IRLED1</v>
+<v>Sympetrum\Firmware\Generated_Source\PSoC4\IRLED1\IRLED1.c</v>
+<v>Sympetrum\Firmware\Generated_Source\PSoC4\IRLED1\IRLED1.h</v>
+<v>Sympetrum\Firmware\Generated_Source\PSoC4\IRLED1\IRLED1_aliases.h</v>
+<v>Sympetrum\Firmware\Generated_Source\PSoC4\IRLED1\IRLED1_PM.c</v>
+<v>Sympetrum\Firmware\Generated_Source\PSoC4\IRLED2</v>
+<v>Sympetrum\Firmware\Generated_Source\PSoC4\IRLED2\IRLED2.c</v>
+<v>Sympetrum\Firmware\Generated_Source\PSoC4\IRLED2\IRLED2.h</v>
+<v>Sympetrum\Firmware\Generated_Source\PSoC4\IRLED2\IRLED2_aliases.h</v>
+<v>Sympetrum\Firmware\Generated_Source\PSoC4\IRLED2\IRLED2_PM.c</v>
 <v>Sympetrum\Firmware\Generated_Source\PSoC4\SPI_LED</v>
 <v>Sympetrum\Firmware\Generated_Source\PSoC4\SPI_LED\SPI_LED.c</v>
 <v>Sympetrum\Firmware\Generated_Source\PSoC4\SPI_LED\SPI_LED.h</v>
-<v>Sympetrum\Firmware\Generated_Source\PSoC4\SPI_LED\SPI_LED_INT.c</v>
+<v>Sympetrum\Firmware\Generated_Source\PSoC4\SPI_LED\SPI_LED_BOOT.c</v>
+<v>Sympetrum\Firmware\Generated_Source\PSoC4\SPI_LED\SPI_LED_BOOT.h</v>
+<v>Sympetrum\Firmware\Generated_Source\PSoC4\SPI_LED\SPI_LED_PINS.h</v>
 <v>Sympetrum\Firmware\Generated_Source\PSoC4\SPI_LED\SPI_LED_PM.c</v>
 <v>Sympetrum\Firmware\Generated_Source\PSoC4\SPI_LED\SPI_LED_PVT.h</v>
-<v>Sympetrum\Firmware\Generated_Source\PSoC4\SPI_LED_IntClock</v>
-<v>Sympetrum\Firmware\Generated_Source\PSoC4\SPI_LED_IntClock\SPI_LED_IntClock.c</v>
-<v>Sympetrum\Firmware\Generated_Source\PSoC4\SPI_LED_IntClock\SPI_LED_IntClock.h</v>
+<v>Sympetrum\Firmware\Generated_Source\PSoC4\SPI_LED\SPI_LED_SPI.c</v>
+<v>Sympetrum\Firmware\Generated_Source\PSoC4\SPI_LED\SPI_LED_SPI_BOOT.c</v>
+<v>Sympetrum\Firmware\Generated_Source\PSoC4\SPI_LED\SPI_LED_SPI_UART.c</v>
+<v>Sympetrum\Firmware\Generated_Source\PSoC4\SPI_LED\SPI_LED_SPI_UART.h</v>
+<v>Sympetrum\Firmware\Generated_Source\PSoC4\SPI_LED\SPI_LED_SPI_UART_PVT.h</v>
+<v>Sympetrum\Firmware\Generated_Source\PSoC4\SPI_LED_mosi_m</v>
+<v>Sympetrum\Firmware\Generated_Source\PSoC4\SPI_LED_mosi_m\SPI_LED_mosi_m.c</v>
+<v>Sympetrum\Firmware\Generated_Source\PSoC4\SPI_LED_mosi_m\SPI_LED_mosi_m.h</v>
+<v>Sympetrum\Firmware\Generated_Source\PSoC4\SPI_LED_mosi_m\SPI_LED_mosi_m_aliases.h</v>
+<v>Sympetrum\Firmware\Generated_Source\PSoC4\SPI_LED_mosi_m\SPI_LED_mosi_m_PM.c</v>
+<v>Sympetrum\Firmware\Generated_Source\PSoC4\SPI_LED_SCBCLK</v>
+<v>Sympetrum\Firmware\Generated_Source\PSoC4\SPI_LED_SCBCLK\SPI_LED_SCBCLK.c</v>
+<v>Sympetrum\Firmware\Generated_Source\PSoC4\SPI_LED_SCBCLK\SPI_LED_SCBCLK.h</v>
+<v>Sympetrum\Firmware\Generated_Source\PSoC4\SPI_LED_sclk_m</v>
+<v>Sympetrum\Firmware\Generated_Source\PSoC4\SPI_LED_sclk_m\SPI_LED_sclk_m.c</v>
+<v>Sympetrum\Firmware\Generated_Source\PSoC4\SPI_LED_sclk_m\SPI_LED_sclk_m.h</v>
+<v>Sympetrum\Firmware\Generated_Source\PSoC4\SPI_LED_sclk_m\SPI_LED_sclk_m_aliases.h</v>
+<v>Sympetrum\Firmware\Generated_Source\PSoC4\SPI_LED_sclk_m\SPI_LED_sclk_m_PM.c</v>
 <v>Sympetrum\Firmware\Generated_Source\PSoC4\cycodeshareexport.ld</v>
 <v>Sympetrum\Firmware\Generated_Source\PSoC4\cycodeshareimport.ld</v>
 <v>Sympetrum\Firmware\Generated_Source\PSoC4\cycodeshareimport.scat</v>
@@ -122,20 +169,20 @@
 <v>Sympetrum\Firmware\Generated_Source\PSoC4\cy_lfclk</v>
 <v>Sympetrum\Firmware\Generated_Source\PSoC4\cy_lfclk\CyLFClk.c</v>
 <v>Sympetrum\Firmware\Generated_Source\PSoC4\cy_lfclk\CyLFClk.h</v>
-<v>Sympetrum\Firmware\Generated_Source\PSoC4\DotStar_MOSI</v>
-<v>Sympetrum\Firmware\Generated_Source\PSoC4\DotStar_MOSI\DotStar_MOSI.c</v>
-<v>Sympetrum\Firmware\Generated_Source\PSoC4\DotStar_MOSI\DotStar_MOSI.h</v>
-<v>Sympetrum\Firmware\Generated_Source\PSoC4\DotStar_MOSI\DotStar_MOSI_aliases.h</v>
-<v>Sympetrum\Firmware\Generated_Source\PSoC4\DotStar_MOSI\DotStar_MOSI_PM.c</v>
-<v>Sympetrum\Firmware\Generated_Source\PSoC4\DotStar_SCK</v>
-<v>Sympetrum\Firmware\Generated_Source\PSoC4\DotStar_SCK\DotStar_SCK.c</v>
-<v>Sympetrum\Firmware\Generated_Source\PSoC4\DotStar_SCK\DotStar_SCK.h</v>
-<v>Sympetrum\Firmware\Generated_Source\PSoC4\DotStar_SCK\DotStar_SCK_aliases.h</v>
-<v>Sympetrum\Firmware\Generated_Source\PSoC4\DotStar_SCK\DotStar_SCK_PM.c</v>
-<v>Sympetrum\Firmware\Generated_Source\PSoC4\SPI_LED</v>
-<v>Sympetrum\Firmware\Generated_Source\PSoC4\SPI_LED\SPI_LED.c</v>
-<v>Sympetrum\Firmware\Generated_Source\PSoC4\SPI_LED\SPI_LED.h</v>
-<v>Sympetrum\Firmware\Generated_Source\PSoC4\SPI_LED\SPI_LED_INT.c</v>
+<v>Sympetrum\Firmware\Generated_Source\PSoC4\CyIR_Data_CLK</v>
+<v>Sympetrum\Firmware\Generated_Source\PSoC4\CyIR_Data_CLK\CyIR_Data_CLK.c</v>
+<v>Sympetrum\Firmware\Generated_Source\PSoC4\CyIR_Data_CLK\CyIR_Data_CLK.h</v>
+<v>Sympetrum\Firmware\Generated_Source\PSoC4\CyIR_Signal_CLK</v>
+<v>Sympetrum\Firmware\Generated_Source\PSoC4\CyIR_Signal_CLK\CyIR_Signal_CLK.c</v>
+<v>Sympetrum\Firmware\Generated_Source\PSoC4\CyIR_Signal_CLK\CyIR_Signal_CLK.h</v>
+<v>Sympetrum\Firmware\Generated_Source\PSoC4\IR_Clk_1</v>
+<v>Sympetrum\Firmware\Generated_Source\PSoC4\IR_Clk_1\IR_Clk_1.c</v>
+<v>Sympetrum\Firmware\Generated_Source\PSoC4\IR_Clk_1\IR_Clk_1.h</v>
+<v>Sympetrum\Firmware\Generated_Source\PSoC4\IR_Debug</v>
+<v>Sympetrum\Firmware\Generated_Source\PSoC4\IR_Debug\IR_Debug.c</v>
+<v>Sympetrum\Firmware\Generated_Source\PSoC4\IR_Debug\IR_Debug.h</v>
+<v>Sympetrum\Firmware\Generated_Source\PSoC4\IR_Debug\IR_Debug_aliases.h</v>
+<v>Sympetrum\Firmware\Generated_Source\PSoC4\IR_Debug\IR_Debug_PM.c</v>
 </VisibleNodeIds>
 </CyGuid_2a325b3b-c96a-4e9f-b7a0-2c44ecb5f237>
 <CyGuid_2a325b3b-c96a-4e9f-b7a0-2c44ecb5f237 type_name="CyDesigner.Common.Base.Controls.CyTreeViewState" version="1" SelectedNodeId="">
@@ -164,21 +211,40 @@
 <v>Sympetrum\Firmware\CortexM0\ARM_GCC_493\Debug\Listing Files\CyBootAsmGnu.lst</v>
 <v>Sympetrum\Firmware\CortexM0\ARM_GCC_493\Debug\Listing Files\cyfitter_cfg.lst</v>
 <v>Sympetrum\Firmware\CortexM0\ARM_GCC_493\Debug\Listing Files\CyFlash.lst</v>
+<v>Sympetrum\Firmware\CortexM0\ARM_GCC_493\Debug\Listing Files\CyIR_Data_CLK.lst</v>
+<v>Sympetrum\Firmware\CortexM0\ARM_GCC_493\Debug\Listing Files\CyIR_Signal_CLK.lst</v>
 <v>Sympetrum\Firmware\CortexM0\ARM_GCC_493\Debug\Listing Files\CyLFClk.lst</v>
 <v>Sympetrum\Firmware\CortexM0\ARM_GCC_493\Debug\Listing Files\CyLib.lst</v>
 <v>Sympetrum\Firmware\CortexM0\ARM_GCC_493\Debug\Listing Files\cymetadata.lst</v>
 <v>Sympetrum\Firmware\CortexM0\ARM_GCC_493\Debug\Listing Files\cyPm.lst</v>
 <v>Sympetrum\Firmware\CortexM0\ARM_GCC_493\Debug\Listing Files\cyutils.lst</v>
-<v>Sympetrum\Firmware\CortexM0\ARM_GCC_493\Debug\Listing Files\DotStar_MOSI.lst</v>
-<v>Sympetrum\Firmware\CortexM0\ARM_GCC_493\Debug\Listing Files\DotStar_MOSI_PM.lst</v>
-<v>Sympetrum\Firmware\CortexM0\ARM_GCC_493\Debug\Listing Files\DotStar_SCK.lst</v>
-<v>Sympetrum\Firmware\CortexM0\ARM_GCC_493\Debug\Listing Files\DotStar_SCK_PM.lst</v>
+<v>Sympetrum\Firmware\CortexM0\ARM_GCC_493\Debug\Listing Files\IR_Clk_1.lst</v>
+<v>Sympetrum\Firmware\CortexM0\ARM_GCC_493\Debug\Listing Files\IR_Debug.lst</v>
+<v>Sympetrum\Firmware\CortexM0\ARM_GCC_493\Debug\Listing Files\IR_Debug_No_Manchester.lst</v>
+<v>Sympetrum\Firmware\CortexM0\ARM_GCC_493\Debug\Listing Files\IR_Debug_No_Manchester_PM.lst</v>
+<v>Sympetrum\Firmware\CortexM0\ARM_GCC_493\Debug\Listing Files\IR_Debug_PM.lst</v>
+<v>Sympetrum\Firmware\CortexM0\ARM_GCC_493\Debug\Listing Files\IR_Receiver.lst</v>
+<v>Sympetrum\Firmware\CortexM0\ARM_GCC_493\Debug\Listing Files\IR_Receiver_PM.lst</v>
+<v>Sympetrum\Firmware\CortexM0\ARM_GCC_493\Debug\Listing Files\IR_Transmit.lst</v>
+<v>Sympetrum\Firmware\CortexM0\ARM_GCC_493\Debug\Listing Files\IR_Transmit_INT.lst</v>
+<v>Sympetrum\Firmware\CortexM0\ARM_GCC_493\Debug\Listing Files\IR_Transmit_PM.lst</v>
+<v>Sympetrum\Firmware\CortexM0\ARM_GCC_493\Debug\Listing Files\IRLED1.lst</v>
+<v>Sympetrum\Firmware\CortexM0\ARM_GCC_493\Debug\Listing Files\IRLED1_PM.lst</v>
+<v>Sympetrum\Firmware\CortexM0\ARM_GCC_493\Debug\Listing Files\IRLED2.lst</v>
+<v>Sympetrum\Firmware\CortexM0\ARM_GCC_493\Debug\Listing Files\IRLED2_PM.lst</v>
 <v>Sympetrum\Firmware\CortexM0\ARM_GCC_493\Debug\Listing Files\leds.lst</v>
 <v>Sympetrum\Firmware\CortexM0\ARM_GCC_493\Debug\Listing Files\main.lst</v>
 <v>Sympetrum\Firmware\CortexM0\ARM_GCC_493\Debug\Listing Files\SPI_LED.lst</v>
-<v>Sympetrum\Firmware\CortexM0\ARM_GCC_493\Debug\Listing Files\SPI_LED_INT.lst</v>
-<v>Sympetrum\Firmware\CortexM0\ARM_GCC_493\Debug\Listing Files\SPI_LED_IntClock.lst</v>
+<v>Sympetrum\Firmware\CortexM0\ARM_GCC_493\Debug\Listing Files\SPI_LED_BOOT.lst</v>
+<v>Sympetrum\Firmware\CortexM0\ARM_GCC_493\Debug\Listing Files\SPI_LED_mosi_m.lst</v>
+<v>Sympetrum\Firmware\CortexM0\ARM_GCC_493\Debug\Listing Files\SPI_LED_mosi_m_PM.lst</v>
 <v>Sympetrum\Firmware\CortexM0\ARM_GCC_493\Debug\Listing Files\SPI_LED_PM.lst</v>
+<v>Sympetrum\Firmware\CortexM0\ARM_GCC_493\Debug\Listing Files\SPI_LED_SCBCLK.lst</v>
+<v>Sympetrum\Firmware\CortexM0\ARM_GCC_493\Debug\Listing Files\SPI_LED_sclk_m.lst</v>
+<v>Sympetrum\Firmware\CortexM0\ARM_GCC_493\Debug\Listing Files\SPI_LED_sclk_m_PM.lst</v>
+<v>Sympetrum\Firmware\CortexM0\ARM_GCC_493\Debug\Listing Files\SPI_LED_SPI.lst</v>
+<v>Sympetrum\Firmware\CortexM0\ARM_GCC_493\Debug\Listing Files\SPI_LED_SPI_BOOT.lst</v>
+<v>Sympetrum\Firmware\CortexM0\ARM_GCC_493\Debug\Listing Files\SPI_LED_SPI_UART.lst</v>
 <v>Sympetrum\Firmware\CortexM0\ARM_GCC_493\Debug\Firmware.elf</v>
 <v>Sympetrum\Firmware\CortexM0\ARM_GCC_493\Debug\Firmware.hex</v>
 <v>Sympetrum\Firmware\CortexM0\ARM_GCC_493\Debug\Firmware.map</v>
@@ -207,10 +273,15 @@
 <v>Sympetrum\Firmware\System Reference Guides</v>
 <v>Sympetrum\Firmware\System Reference Guides\cy_boot_v5_30</v>
 <v>Sympetrum\Firmware\System Reference Guides\cy_lfclk_v1_0</v>
-<v>Sympetrum\Firmware\cy_constant_v1_0.pdf</v>
+<v>Sympetrum\Firmware\cy_clock_v2_20</v>
+<v>Sympetrum\Firmware\cy_clock_v2_20\cy_clock_v2_20.pdf</v>
+<v>Sympetrum\Firmware\cy_constant_v1_0</v>
+<v>Sympetrum\Firmware\cy_constant_v1_0\cy_constant_v1_0.pdf</v>
 <v>Sympetrum\Firmware\cy_pins_v2_20</v>
 <v>Sympetrum\Firmware\cy_pins_v2_20\cy_pins_v2_20.pdf</v>
+<v>Sympetrum\Firmware\SCB_P4_v3_10.pdf</v>
 <v>Sympetrum\Firmware\SPI_Master_v2_50.pdf</v>
+<v>Sympetrum\Firmware\xor_v1_0.pdf</v>
 </ExpandedNodeIds>
 <VisibleNodeIds>
 <v>Sympetrum</v>
@@ -220,10 +291,15 @@
 <v>Sympetrum\Firmware\System Reference Guides</v>
 <v>Sympetrum\Firmware\System Reference Guides\cy_boot_v5_30</v>
 <v>Sympetrum\Firmware\System Reference Guides\cy_lfclk_v1_0</v>
-<v>Sympetrum\Firmware\cy_constant_v1_0.pdf</v>
+<v>Sympetrum\Firmware\cy_clock_v2_20</v>
+<v>Sympetrum\Firmware\cy_clock_v2_20\cy_clock_v2_20.pdf</v>
+<v>Sympetrum\Firmware\cy_constant_v1_0</v>
+<v>Sympetrum\Firmware\cy_constant_v1_0\cy_constant_v1_0.pdf</v>
 <v>Sympetrum\Firmware\cy_pins_v2_20</v>
 <v>Sympetrum\Firmware\cy_pins_v2_20\cy_pins_v2_20.pdf</v>
+<v>Sympetrum\Firmware\SCB_P4_v3_10.pdf</v>
 <v>Sympetrum\Firmware\SPI_Master_v2_50.pdf</v>
+<v>Sympetrum\Firmware\xor_v1_0.pdf</v>
 </VisibleNodeIds>
 </CyGuid_2a325b3b-c96a-4e9f-b7a0-2c44ecb5f237>
 </TreeStatesV2>
@@ -235,6 +311,7 @@
 <OpenDocs>
 <name v=".\Firmware.cydsn\TopDesign\TopDesign.cysch" />
 <name v=".\Firmware.cydsn\main.c" />
+<name v=".\Firmware.cydsn\Generated_Source\PSoC4\SPI_LED_INT.c" />
 </OpenDocs>
 <config v="" />
 <AutoUpdate v="true" />
