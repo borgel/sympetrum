@@ -3,6 +3,24 @@
 #include <project.h>
 
 #include <stdint.h>
+#include <stdio.h>
+
+
+
+#include <stdarg.h>
+void debprint(const char *fmt, ...) {
+    char printbuf[512] = {0};
+    if(!fmt) {
+        return;
+    }
+    
+    va_list args;
+    va_start(args, fmt);
+    vsnprintf(printbuf, sizeof(printbuf), fmt, args);
+    va_end(args);
+    
+    UART_Debug_UartPutString(printbuf);
+}
 
 
 int main()
@@ -10,6 +28,7 @@ int main()
     CyGlobalIntEnable;
     
     IR_Transmit_Start();
+    UART_Debug_Start();
     
     uint8_t count = 0;
     
@@ -18,6 +37,8 @@ int main()
         data = count;
         
         IR_Transmit_WriteTxData(data);
+        
+        debprint("a value = %d\r\n", IR_Receiver_Read());
         
         count++;
         CyDelay(100);
