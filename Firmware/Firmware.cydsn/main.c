@@ -26,9 +26,10 @@ void debprint(const char *fmt, ...) {
 int main()
 {
     CyGlobalIntEnable;
+    UART_Debug_Start();
     
     IR_Transmit_Start();
-    UART_Debug_Start();
+    PWM_1_Start();
     
     uint8_t count = 0;
     
@@ -36,12 +37,13 @@ int main()
     for(;;) {
         data = count;
         
-        IR_Transmit_WriteTxData(data);
+        //IR_Transmit_WriteTxData(data);
+        IR_Transmit_WriteTxData(0x0001);
         
         debprint("a value = %d\r\n", IR_Receiver_Read());
         
         count++;
-        CyDelay(100);
+        CyDelay(10);
     }
 }
 
