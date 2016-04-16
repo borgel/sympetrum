@@ -43,7 +43,7 @@ int main()
         debprint("a value = %d\r\n", IR_Receiver_Read());
         
         count++;
-        CyDelay(10);
+        CyDelay(500);
     }
 }
 
