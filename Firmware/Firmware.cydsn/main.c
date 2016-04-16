@@ -4,12 +4,14 @@
 #include <stdint.h>
 
 #include "debprint.h"
+#include "ir.h"
 
 int main()
 {
     CyGlobalIntEnable;
     
     debprint_Start();
+    ir_Start();
     
     IR_Transmit_Start();
     PWM_1_Start();
@@ -18,12 +20,17 @@ int main()
     
     uint16_t data;
     for(;;) {
-        data = count;
+        msg.address = 5;
+        msg.command = 33;
+        ir_Send(&msg);
+        //debprint("sending addr %d data 0x%0X\r\n", msg.address, msg.command);
         
-        //IR_Transmit_WriteTxData(data);
-        IR_Transmit_WriteTxData(0x0001);
-        
-        debprint("a value = %d\r\n", IR_Receiver_Read());
+        if(ir_Receive(&msg)) {
+            debprint("received addr %d data 0x%0X\r\n", msg.address, msg.command);
+        }
+        else {
+            //debprint("Failed to rx a message\n");
+        }
         
         count++;
         CyDelay(500);
