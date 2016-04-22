@@ -8,6 +8,7 @@ someone pointed out endframe is no different looking then a full bright LED (whi
 sort of matches behavior I've seen....). So omit that too.
 
 */
+#include "leds.h"
 #include <project.h>
 
 #include <stdint.h>
@@ -76,7 +77,8 @@ void led_Do(void) {
     */
     
     //LED_PACKET_HEADER = 0x7
-    struct led_data wat = {0x7, 31, {0, 5, 0}};
+    //struct led_data wat = {0x7, 31, {0, 5, 0}};
+    struct led_data wat = {0x7, 0, {0, 0, 0}};
             
     /*
     SPI_LED_WriteByte(0x70);    //3 1's + full global brightness    0xFF for full bright. 0x70 for no bright
@@ -89,33 +91,31 @@ void led_Do(void) {
         //wat.color.g = count;
         
         //start frame
-        SPI_LED_WriteTxData(0x00);
-        SPI_LED_WriteTxData(0x00);
-        SPI_LED_WriteTxData(0x00);
-        SPI_LED_WriteTxData(0x00);
+        SPI_LED_SpiUartWriteTxData(0x00);
+        SPI_LED_SpiUartWriteTxData(0x00);
+        SPI_LED_SpiUartWriteTxData(0x00);
+        SPI_LED_SpiUartWriteTxData(0x00);
         
-        for(i = 0; i < 3; i++) {
+        for(i = 0; i < 4; i++) {
             //1 LED
-            SPI_LED_PutArray((uint8_t*)&wat, sizeof(wat));
+            //SPI_LED_SpiUartPutArray((uint8_t*)&wat, sizeof(wat));
             
-            /*
-            SPI_LED_WriteByte(0xEF);    //3 1's + full global brightness    0xFF for full bright. 0x70 for no bright
-            SPI_LED_WriteByte(0x00);    //b
-            SPI_LED_WriteByte(count);    //g
-            SPI_LED_WriteByte(0x00);    //r
-            */
+            
+            SPI_LED_SpiUartWriteTxData(0xFF);    //3 1's + full global brightness    0xFF for full bright. 0x70 for no bright
+            SPI_LED_SpiUartWriteTxData(count);    //b
+            SPI_LED_SpiUartWriteTxData(count);    //g
+            SPI_LED_SpiUartWriteTxData(count);    //r
+            
         }
         
-        SPI_LED_WriteTxData(0xFF);
-        SPI_LED_WriteTxData(0xFF);
-        SPI_LED_WriteTxData(0xFF);
-        SPI_LED_WriteTxData(0xFF);
-        
-        Pin_1_Write(!Pin_1_Read());
+        SPI_LED_SpiUartWriteTxData(0xFF);
+        SPI_LED_SpiUartWriteTxData(0xFF);
+        SPI_LED_SpiUartWriteTxData(0xFF);
+        SPI_LED_SpiUartWriteTxData(0xFF);
         
         
-        CyDelay(200);
-        //CyDelay(10);
+        //CyDelay(200);
+        CyDelay(10);
         count+=1;
     }
 

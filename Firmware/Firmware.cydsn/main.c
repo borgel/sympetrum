@@ -5,6 +5,7 @@
 
 #include "debprint.h"
 #include "ir.h"
+#include "leds.h"
 
 int main()
 {
@@ -12,14 +13,19 @@ int main()
     
     debprint_Start();
     ir_Start();
+    SPI_LED_Start();
     
-    IR_Transmit_Start();
-    PWM_1_Start();
+    debprint("\r\nStarting "__DATE__ ": "__TIME__"\r\n");
     
     uint8_t count = 0;
     
-    uint16_t data;
+    struct ir_Message msg;
+    
+    //FIXME rm
+    led_Do();
+    
     for(;;) {
+        /*
         msg.address = 5;
         msg.command = 33;
         ir_Send(&msg);
@@ -31,10 +37,9 @@ int main()
         else {
             //debprint("Failed to rx a message\n");
         }
+        */
         
         count++;
-        CyDelay(500);
+        CyDelay(50);
     }
 }
-
-/* [] END OF FILE */
