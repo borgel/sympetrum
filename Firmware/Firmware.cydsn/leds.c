@@ -77,8 +77,7 @@ void led_Do(void) {
     */
     
     //LED_PACKET_HEADER = 0x7
-    //struct led_data wat = {0x7, 31, {0, 5, 0}};
-    struct led_data wat = {0x7, 0, {0, 0, 0}};
+    struct led_data wat = {0x7, 31, {0, 5, 0}};
             
     /*
     SPI_LED_WriteByte(0x70);    //3 1's + full global brightness    0xFF for full bright. 0x70 for no bright
@@ -102,9 +101,9 @@ void led_Do(void) {
             
             
             SPI_LED_SpiUartWriteTxData(0xFF);    //3 1's + full global brightness    0xFF for full bright. 0x70 for no bright
-            SPI_LED_SpiUartWriteTxData(count);    //b
-            SPI_LED_SpiUartWriteTxData(count);    //g
-            SPI_LED_SpiUartWriteTxData(count);    //r
+            SPI_LED_SpiUartWriteTxData(count/2);    //b
+            SPI_LED_SpiUartWriteTxData(count/2);    //g
+            SPI_LED_SpiUartWriteTxData(count/2);    //r
             
         }
         
