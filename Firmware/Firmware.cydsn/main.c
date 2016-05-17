@@ -3,6 +3,7 @@
 #include <project.h>
 #include <stdint.h>
 
+#include "board_id.h"
 #include "debprint.h"
 #include "ir.h"
 #include "leds.h"
@@ -16,6 +17,10 @@ int main()
     SPI_LED_Start();
     
     debprint("\r\nStarting "__DATE__ ": "__TIME__"\r\n");
+    
+    uint8_t id = bid_GetID();
+    
+    debprint("Board ID = 0x%x\r\n", id);
     
     uint8_t count = 0;
     
