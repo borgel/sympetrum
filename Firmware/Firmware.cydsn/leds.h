@@ -11,6 +11,6 @@ struct led_PackedColor {
     
 void led_Start(void);
 void led_SetColor(int index, struct led_PackedColor *const color);
-void led_GiveTime(void);
+void led_DisplayPattern(void);
     
 #endif//LED_H__

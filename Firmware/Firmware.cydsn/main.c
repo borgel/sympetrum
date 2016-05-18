@@ -8,6 +8,7 @@
 #include "ir.h"
 #include "leds.h"
 #include "rng.h"
+#include "patterns.h"
 
 int main()
 {
@@ -21,18 +22,13 @@ int main()
     
     uint8_t id = bid_GetID();
     rng_Start(id);
+    patterns_Start();
     
     debprint("Board ID = 0x%x\r\n", id);
     
     uint8_t count = 0;
     
     struct ir_Message msg;
-    
-    //set some LEDs
-    struct led_PackedColor c = {0, 5, 0};
-    led_SetColor(0, &c);
-    led_SetColor(2, &c);
-    
     
     for(;;) {
         /*
@@ -49,7 +45,6 @@ int main()
         }
         */
         
-        //led_GiveTime();
         
         count++;
         CyDelay(50);
