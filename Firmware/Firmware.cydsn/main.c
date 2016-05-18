@@ -14,7 +14,7 @@ int main()
     
     debprint_Start();
     ir_Start();
-    SPI_LED_Start();
+    led_Start();
     
     debprint("\r\nStarting "__DATE__ ": "__TIME__"\r\n");
     
@@ -26,8 +26,12 @@ int main()
     
     struct ir_Message msg;
     
-    //FIXME rm
-    led_Do();
+    //set some LEDs
+    struct led_PackedColor c = {0, 5, 0};
+    led_SetColor(0, &c);
+    led_SetColor(2, &c);
+    
+    led_GiveTime();
     
     for(;;) {
         /*
@@ -43,6 +47,8 @@ int main()
             //debprint("Failed to rx a message\n");
         }
         */
+        
+        //led_GiveTime();
         
         count++;
         CyDelay(50);
