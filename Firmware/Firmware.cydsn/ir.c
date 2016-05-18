@@ -21,14 +21,17 @@ static bool ir_ValidateMessage(union ir_RawMessage *msg);
 void ir_Start(void) {
     IR_Transceiver_Start();
     PWM_1_Start();
+    IRLedControl_Write(0);
 }
 
 void ir_Send(struct ir_Message *msg) {
     union ir_RawMessage m = {.msg = *msg, .toggle = 1};
     
     //TODO explicitely enable/disable LED outputs around this
+    IRLedControl_Write(1);
     IR_Transceiver_WriteTxData(m.raw);
     //IR_Transceiver_WriteTxData(0xF0F);
+    IRLedControl_Write(0);
 }
 
 bool ir_Receive(struct ir_Message *msg) {
