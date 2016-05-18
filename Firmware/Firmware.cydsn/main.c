@@ -31,7 +31,6 @@ int main()
     led_SetColor(0, &c);
     led_SetColor(2, &c);
     
-    led_GiveTime();
     
     for(;;) {
         /*

@@ -9,6 +9,7 @@ sort of matches behavior I've seen....). So omit that too.
 
 */
 #include "leds.h"
+#include "debprint.h"
 #include <project.h>
 
 #include <stdint.h>
@@ -33,6 +34,19 @@ static struct led_data LedState[LED_CHAIN_LENGTH] = {};
 static const struct led_data led50 = {LED_PACKET_HEADER, 0x1F, {255/10, 255/10, 255/10}};
 static const struct led_data led0 = {LED_PACKET_HEADER, 0x1F, {0, 0, 0}};
 
+static void led_DisplayPattern(void);
+
+/*
+Every time the new frame interrupt fires, display whatever is in the LED buffer
+*/
+CY_ISR(led_FrameISR) {
+    //FIXME RGBFrameTimer_INTR_MASK_CC_MATCH?
+    RGBFrameTimer_ClearInterrupt(RGBFrameTimer_INTR_MASK_TC);
+    RGBFrameInterrupt_ClearPending();
+    
+    led_DisplayPattern();
+}
+
 void led_Start(void) {
     SPI_LED_Start();
     
@@ -41,6 +55,13 @@ void led_Start(void) {
     for(i = 0; i < LED_CHAIN_LENGTH; i++) {
         LedState[i] = led0;
     }
+    
+    //0 all LEDs
+    led_DisplayPattern();
+    
+    //setup the frame interrupt and timer
+    RGBFrameTimer_Start();
+    RGBFrameInterrupt_StartEx(led_FrameISR);
 }
 
 /*
