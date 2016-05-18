@@ -7,6 +7,7 @@
 #include "debprint.h"
 #include "ir.h"
 #include "leds.h"
+#include "rng.h"
 
 int main()
 {
@@ -19,6 +20,7 @@ int main()
     debprint("\r\nStarting "__DATE__ ": "__TIME__"\r\n");
     
     uint8_t id = bid_GetID();
+    rng_Start(id);
     
     debprint("Board ID = 0x%x\r\n", id);
     
