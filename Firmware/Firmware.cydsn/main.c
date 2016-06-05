@@ -10,6 +10,15 @@
 #include "rng.h"
 #include "patterns.h"
 
+//TODO move
+static bool docolor = false;
+CY_ISR(ButtonISR) {
+    debprint("Got a button\n");
+    
+    docolor = true;
+    ButtonInterrupt_ClearPending();
+}
+
 int main()
 {
     CyGlobalIntEnable;
@@ -29,6 +38,9 @@ int main()
     
     uint8_t count, send;
     count = send = 0;
+    
+    //without debounce this sucks
+    //ButtonInterrupt_StartEx(ButtonISR);
     
     struct ir_Message beaconMsg = {.address = id};
     
