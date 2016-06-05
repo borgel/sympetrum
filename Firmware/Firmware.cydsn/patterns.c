@@ -16,14 +16,11 @@ void pattern_PermutePattern(void);
 Every time the new frame interrupt fires, display whatever is in the LED buffer
 */
 CY_ISR(led_FrameISR) {
+    pattern_PermutePattern();
+    led_DisplayPattern();
+    
     RGBFrameTimer_ClearInterrupt(RGBFrameTimer_INTR_MASK_TC);
     RGBFrameInterrupt_ClearPending();
-    
-    //TODO permute pattern
-    pattern_PermutePattern();
-    
-    //
-    led_DisplayPattern();
 }
 
 void patterns_Start(void) {
@@ -39,8 +36,17 @@ Be clever
 */
 void pattern_PermutePattern(void) {
     //set some LEDs
-    struct led_PackedColor c = {0, 5, 0};
+    struct led_PackedColor c = {0, 0, 0};
+    
+    c.b = rng_GetByte()/9;
     led_SetColor(0, &c);
-    c.g = rng_GetByte()/10;
+    c.b = 0;
+    
+    c.r = rng_GetByte()/9;
+    led_SetColor(1, &c);
+    c.r = 0;
+    
+    c.g = rng_GetByte()/9;
     led_SetColor(2, &c);
+    c.g = 0;
 }
