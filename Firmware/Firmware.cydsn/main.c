@@ -22,31 +22,27 @@ int main()
     
     uint8_t id = bid_GetID();
     rng_Start(id);
-    patterns_Start();
+    
+    //patterns_Start();
     
     debprint("Board ID = 0x%x\r\n", id);
     
-    uint8_t count = 0;
+    uint8_t count, send;
+    count = send = 0;
     
-    struct ir_Message msg;
+    struct ir_Message beaconMsg = {.address = id};
     
     for(;;) {
-        /*
-        msg.address = 5;
-        msg.command = 33;
-        ir_Send(&msg);
-        //debprint("sending addr %d data 0x%0X\r\n", msg.address, msg.command);
-        
-        if(ir_Receive(&msg)) {
-            debprint("received addr %d data 0x%0X\r\n", msg.address, msg.command);
+        if(count % 100 == 0) {
+            beaconMsg.command = send++;
+            
+            debprint("sending addr %d data 0x%0X\r\n", beaconMsg.address, beaconMsg.command);
+            
+            ir_Send(&beaconMsg);
+            UserLED_Write(!UserLED_Read());
         }
-        else {
-            //debprint("Failed to rx a message\n");
-        }
-        */
-        
         
         count++;
-        CyDelay(50);
+        CyDelay(10);
     }
 }
