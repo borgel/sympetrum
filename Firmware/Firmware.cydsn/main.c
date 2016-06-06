@@ -10,6 +10,8 @@
 #include "rng.h"
 #include "patterns.h"
 
+//#define BEACON
+
 //TODO move
 static bool docolor = false;
 CY_ISR(ButtonISR) {
@@ -45,16 +47,27 @@ int main()
     struct ir_Message beaconMsg = {.address = id};
     
     for(;;) {
+#ifdef BEACON
         if(count % 100 == 0) {
             beaconMsg.command = send++;
+            
+            //beaconMsg.address = 0x15;   //0b1 0101
+            //beaconMsg.command = 0x0C;   //0b00 1100
+            beaconMsg.address = 0x1F;
+            beaconMsg.command = 0x3F;
             
             debprint("sending addr %d data 0x%0X\r\n", beaconMsg.address, beaconMsg.command);
             
             ir_Send(&beaconMsg);
             UserLED_Write(!UserLED_Read());
         }
+        CyDelay(10);
+#endif
+
+#ifndef BEACON
+        ir_GiveTime();
+#endif
         
         count++;
-        CyDelay(10);
     }
 }
