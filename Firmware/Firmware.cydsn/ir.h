@@ -12,6 +12,8 @@ struct ir_Message {
 void ir_Start(void);
 
 void ir_Send(struct ir_Message *msg);
-bool ir_Receive(struct ir_Message *msg);
+//bool ir_Receive(struct ir_Message *msg);
+
+void ir_GiveTime(void);
 
 #endif//IR_H__
