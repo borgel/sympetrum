@@ -38,15 +38,13 @@ void pattern_PermutePattern(void) {
     //set some LEDs
     struct led_PackedColor c = {0, 0, 0};
     
-    c.b = rng_GetByte()/9;
-    led_SetColor(0, &c);
-    c.b = 0;
+    int i;
+    for(i = 0; i < LED_CHAIN_LENGTH; i++) {
+        c.b = rng_GetByte()/9;
+        c.r = rng_GetByte()/9;
+        c.g = rng_GetByte()/9;
+        led_SetColor(i, &c);
+    }
     
-    c.r = rng_GetByte()/9;
-    led_SetColor(1, &c);
-    c.r = 0;
     
-    c.g = rng_GetByte()/9;
-    led_SetColor(2, &c);
-    c.g = 0;
 }

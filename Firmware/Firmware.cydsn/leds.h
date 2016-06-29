@@ -8,6 +8,8 @@ struct led_PackedColor {
     uint8_t     g;
     uint8_t     r;
 }__attribute__((packed));
+
+#define                 LED_CHAIN_LENGTH        10
     
 void led_Start(void);
 void led_SetColor(int index, struct led_PackedColor *const color);

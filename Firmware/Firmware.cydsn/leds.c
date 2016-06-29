@@ -14,8 +14,6 @@ sort of matches behavior I've seen....). So omit that too.
 
 #include <stdint.h>
 
-#define                 LED_CHAIN_LENGTH        3
-
 static const uint32_t   LED_START_FRAME        = 0x00000000;
 static const uint32_t   LED_END_FRAME          = 0xFFFFFFFF;
 #define                 LED_PACKET_HEADER       0x7     //0b111
