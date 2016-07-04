@@ -31,6 +31,16 @@ static struct led_data LedState[LED_CHAIN_LENGTH] = {};
 
 static const struct led_data led0 = {0xE1, {0, 0, 0}};
 
+/*
+Every time the new frame interrupt fires, display whatever is in the LED buffer
+*/
+CY_ISR(led_FrameISR) {
+    led_DisplayPattern();
+    
+    RGBFrameTimer_ClearInterrupt(RGBFrameTimer_INTR_MASK_TC);
+    RGBFrameInterrupt_ClearPending();
+}
+
 void led_Start(void) {
     SPI_LED_Start();
     
@@ -42,6 +52,10 @@ void led_Start(void) {
     
     //0 all LEDs
     led_DisplayPattern();
+    
+    //setup the frame interrupt and timer
+    RGBFrameTimer_Start();
+    RGBFrameInterrupt_StartEx(led_FrameISR);
 }
 
 /*

@@ -29,14 +29,13 @@ static struct pattern_State state;
 void pattern_PermutePattern(void);
 
 /*
-Every time the new frame interrupt fires, display whatever is in the LED buffer
+10Hz animation update ISR
 */
-CY_ISR(led_FrameISR) {
+CY_ISR(animation_FrameISR) {
     pattern_PermutePattern();
-    led_DisplayPattern();
     
-    RGBFrameTimer_ClearInterrupt(RGBFrameTimer_INTR_MASK_TC);
-    RGBFrameInterrupt_ClearPending();
+    AnimationTimer_ClearInterrupt(AnimationTimer_INTR_MASK_TC);
+    AnimationFrameInterrupt_ClearPending();
 }
 
 void patterns_Start(void) {
@@ -45,6 +44,8 @@ void patterns_Start(void) {
     //setup the frame interrupt and timer
     RGBFrameTimer_Start();
     RGBFrameInterrupt_StartEx(led_FrameISR);
+    AnimationTimer_Start();
+    AnimationFrameInterrupt_StartEx(animation_FrameISR);
 }
 
 /*
