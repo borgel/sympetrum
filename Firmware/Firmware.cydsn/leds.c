@@ -16,21 +16,18 @@ sort of matches behavior I've seen....). So omit that too.
 
 static const uint32_t   LED_START_FRAME        = 0x00000000;
 static const uint32_t   LED_END_FRAME          = 0xFFFFFFFF;
-#define                 LED_PACKET_HEADER       0x7     //0b111
 
 struct led_data {
-    uint8_t     header  :3;
-    uint8_t     global  :5;
+    //header/global brightness is 0bAAABBBBB
+    //A = 1
+    //B = integer brightness divisor from 0x0 -> 0x1F
+    uint8_t       globalHeader;
     struct led_PackedColor color;
 }__attribute__((packed));
 
 static struct led_data LedState[LED_CHAIN_LENGTH] = {};
 
-//0x7 is a constant
-//hdr, 5 bit global brightness divisor, each channel
-//0x1F is max current
-static const struct led_data led50 = {LED_PACKET_HEADER, 0x1F, {255/10, 255/10, 255/10}};
-static const struct led_data led0 = {LED_PACKET_HEADER, 0x1F, {0, 0, 0}};
+static const struct led_data led0 = {0xE1, {0, 0, 0}};
 
 void led_Start(void) {
     SPI_LED_Start();
