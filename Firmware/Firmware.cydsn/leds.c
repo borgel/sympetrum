@@ -29,7 +29,7 @@ struct led_data {
 
 static struct led_data LedState[LED_CHAIN_LENGTH] = {};
 
-static const struct led_data led0 = {0xE1, {0, 0, 0}};
+static const struct led_data led0 = {0xE4, {0, 0, 0}};
 
 /*
 Every time the new frame interrupt fires, display whatever is in the LED buffer
