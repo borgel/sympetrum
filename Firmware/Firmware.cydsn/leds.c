@@ -9,6 +9,7 @@ sort of matches behavior I've seen....). So omit that too.
 
 */
 #include "leds.h"
+#include "color.h"
 #include "debprint.h"
 #include <project.h>
 
@@ -23,7 +24,7 @@ struct led_data {
     //A = 1
     //B = integer brightness divisor from 0x0 -> 0x1F
     uint8_t       globalHeader;
-    struct led_PackedColor color;
+    struct color_PackedColor color;
 }__attribute__((packed));
 
 static struct led_data LedState[LED_CHAIN_LENGTH] = {};
@@ -67,7 +68,7 @@ void led_DisplayPattern(void) {
     SPI_LED_SpiUartWriteTxData(0xFF);
 }
 
-void led_SetColor(int index, struct led_PackedColor *const color) {
+void led_SetColor(int index, struct color_PackedColor *const color) {
     if(index > LED_CHAIN_LENGTH || !color) {
         return;
     }
