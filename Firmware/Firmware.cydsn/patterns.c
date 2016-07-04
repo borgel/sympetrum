@@ -46,7 +46,7 @@ void patterns_Start(void) {
         color_GetRandomColor(&animation[i].colorTarget);
         
         //TODO set randomly within range
-        animation[i].stepMagnitude = 1;
+        animation[i].stepMagnitude = 5;
     }
     
     //setup the frame interrupt and timer
