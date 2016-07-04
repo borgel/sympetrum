@@ -16,6 +16,7 @@ sort of matches behavior I've seen....). So omit that too.
 
 static const uint32_t   LED_START_FRAME        = 0x00000000;
 static const uint32_t   LED_END_FRAME          = 0xFFFFFFFF;
+static const uint8_t    LED_MAX_SAFE_BRIGHT    = 255;    //cap brightness at ~10%
 
 struct led_data {
     //header/global brightness is 0bAAABBBBB
@@ -69,6 +70,17 @@ void led_DisplayPattern(void) {
 void led_SetColor(int index, struct led_PackedColor *const color) {
     if(index > LED_CHAIN_LENGTH || !color) {
         return;
+    }
+    
+    //cap each channel's brightness at something sane
+    if(color->r > LED_MAX_SAFE_BRIGHT) {
+        color->r = LED_MAX_SAFE_BRIGHT;
+    }
+    if(color->g > LED_MAX_SAFE_BRIGHT) {
+        color->g = LED_MAX_SAFE_BRIGHT;
+    }
+    if(color->b > LED_MAX_SAFE_BRIGHT) {
+        color->b = LED_MAX_SAFE_BRIGHT;
     }
     
     LedState[index].color = *color;
