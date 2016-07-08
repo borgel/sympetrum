@@ -15,6 +15,9 @@ sort of matches behavior I've seen....). So omit that too.
 
 #include <stdint.h>
 
+//the threshold below which the LEDs begin to flicker
+#define LED_FLICKER_THRESHOLD                   3
+
 static const uint32_t   LED_START_FRAME        = 0x00000000;
 static const uint32_t   LED_END_FRAME          = 0xFFFFFFFF;
 static const uint8_t    LED_MAX_SAFE_BRIGHT    = 255;    //cap brightness at ~10%
@@ -91,12 +94,17 @@ void led_SetColor(int index, struct color_PackedColor *const color) {
     if(color->r > LED_MAX_SAFE_BRIGHT) {
         color->r = LED_MAX_SAFE_BRIGHT;
     }
+    color->r = (color->r < LED_FLICKER_THRESHOLD) ? (color->r * 3) : color->r;
+    
     if(color->g > LED_MAX_SAFE_BRIGHT) {
         color->g = LED_MAX_SAFE_BRIGHT;
     }
+    color->g = (color->g < LED_FLICKER_THRESHOLD) ? (color->g * 3) : color->g;
+    
     if(color->b > LED_MAX_SAFE_BRIGHT) {
         color->b = LED_MAX_SAFE_BRIGHT;
     }
+    color->b = (color->b < LED_FLICKER_THRESHOLD) ? (color->b * 3) : color->b;
     
     LedState[index].color = *color;
 }
