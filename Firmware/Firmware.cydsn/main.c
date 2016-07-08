@@ -34,7 +34,7 @@ int main()
     uint8_t id = bid_GetID();
     rng_Start(id);
     
-    //patterns_Start();
+    patterns_Start();
     
     debprint("Board ID = 0x%x\r\n", id);
     

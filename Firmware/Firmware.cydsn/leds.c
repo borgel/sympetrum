@@ -9,30 +9,40 @@ sort of matches behavior I've seen....). So omit that too.
 
 */
 #include "leds.h"
+#include "color.h"
 #include "debprint.h"
 #include <project.h>
 
 #include <stdint.h>
 
-#define                 LED_CHAIN_LENGTH        3
+//the threshold below which the LEDs begin to flicker
+#define LED_FLICKER_THRESHOLD                   3
 
 static const uint32_t   LED_START_FRAME        = 0x00000000;
 static const uint32_t   LED_END_FRAME          = 0xFFFFFFFF;
-#define                 LED_PACKET_HEADER       0x7     //0b111
+static const uint8_t    LED_MAX_SAFE_BRIGHT    = 255;    //cap brightness at ~10%
 
 struct led_data {
-    uint8_t     header  :3;
-    uint8_t     global  :5;
-    struct led_PackedColor color;
+    //header/global brightness is 0bAAABBBBB
+    //A = 1
+    //B = integer brightness divisor from 0x0 -> 0x1F
+    uint8_t       globalHeader;
+    struct color_PackedColor color;
 }__attribute__((packed));
 
 static struct led_data LedState[LED_CHAIN_LENGTH] = {};
 
-//0x7 is a constant
-//hdr, 5 bit global brightness divisor, each channel
-//0x1F is max current
-static const struct led_data led50 = {LED_PACKET_HEADER, 0x1F, {255/10, 255/10, 255/10}};
-static const struct led_data led0 = {LED_PACKET_HEADER, 0x1F, {0, 0, 0}};
+static const struct led_data led0 = {0xE4, {0, 0, 0}};
+
+/*
+Every time the new frame interrupt fires, display whatever is in the LED buffer
+*/
+CY_ISR(led_FrameISR) {
+    led_DisplayPattern();
+    
+    RGBFrameTimer_ClearInterrupt(RGBFrameTimer_INTR_MASK_TC);
+    RGBFrameInterrupt_ClearPending();
+}
 
 void led_Start(void) {
     SPI_LED_Start();
@@ -45,6 +55,10 @@ void led_Start(void) {
     
     //0 all LEDs
     led_DisplayPattern();
+    
+    //setup the frame interrupt and timer
+    RGBFrameTimer_Start();
+    RGBFrameInterrupt_StartEx(led_FrameISR);
 }
 
 /*
@@ -71,10 +85,26 @@ void led_DisplayPattern(void) {
     SPI_LED_SpiUartWriteTxData(0xFF);
 }
 
-void led_SetColor(int index, struct led_PackedColor *const color) {
+void led_SetColor(int index, struct color_PackedColor *const color) {
     if(index > LED_CHAIN_LENGTH || !color) {
         return;
     }
+    
+    //cap each channel's brightness at something sane
+    if(color->r > LED_MAX_SAFE_BRIGHT) {
+        color->r = LED_MAX_SAFE_BRIGHT;
+    }
+    color->r = (color->r < LED_FLICKER_THRESHOLD) ? (color->r * 3) : color->r;
+    
+    if(color->g > LED_MAX_SAFE_BRIGHT) {
+        color->g = LED_MAX_SAFE_BRIGHT;
+    }
+    color->g = (color->g < LED_FLICKER_THRESHOLD) ? (color->g * 3) : color->g;
+    
+    if(color->b > LED_MAX_SAFE_BRIGHT) {
+        color->b = LED_MAX_SAFE_BRIGHT;
+    }
+    color->b = (color->b < LED_FLICKER_THRESHOLD) ? (color->b * 3) : color->b;
     
     LedState[index].color = *color;
 }
