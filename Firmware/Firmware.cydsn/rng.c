@@ -2,8 +2,13 @@
 #include <project.h>
 
 void rng_Start(uint8_t seed) {
+    BatterySenseADC_Start();
+    BatterySenseADC_StartConvert();
+    
     PRS_1_Start();
-    PRS_1_ResetSeedInit(seed);
+    
+    int16_t v = BatterySenseADC_GetResult16(0);
+    PRS_1_ResetSeedInit(seed | v);
 }
 
 uint8_t rng_GetByte(void) {
