@@ -10,7 +10,6 @@ sort of matches behavior I've seen....). So omit that too.
 */
 #include "leds.h"
 #include "color.h"
-#include "debprint.h"
 #include <project.h>
 
 #include <stdint.h>

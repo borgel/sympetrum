@@ -11,10 +11,8 @@
 
 union ir_RawMessage {
     uint16_t raw;
-    uint8_t array[2];
 };
 
-//#define IR_MSG_LENGTH_BITS      (8 * sizeof(union ir_RawMessage))
 #define IR_MSG_LENGTH_BITS          16
 
 enum IR_RECEIVE_STATE {
@@ -48,8 +46,6 @@ CY_ISR(IncomingIRISR) {
             state.msgState = IRR_MSG_IN_PROGRESS;
             state.msgInProgress.raw = 0;
             state.currentBit = 0;
-            
-            //FIXME needed?
             state.incomingBuffer = 0;
         }
     }
@@ -83,9 +79,10 @@ void ir_Send(struct ir_Message const *msg) {
         msg->body,
     };
     
+    //enable the LEDs for transmit
     IRLedControl_Write(1);
     
-    //header implies len is in bytes? seems to be wrong (send trash)
+    // length in (16 bit) words
     IR_Transceiver_PutArray(txdata, 2);
     
     IRLedControl_Write(0);
@@ -94,7 +91,8 @@ void ir_Send(struct ir_Message const *msg) {
 void ir_GiveTime(void){
     if(state.msgState == IRR_MSG_COMPLETE) {
         //debprint("16 bits have been clocked in...\r\n");
-        debprint("0x%04X\r\n", state.msgInProgress.raw);
+        //debprint("0x%04X\r\n", state.msgInProgress.raw);
+        //iprintf("0x%x\r\n", state.msgInProgress.raw);
         
         
         //TODO react
