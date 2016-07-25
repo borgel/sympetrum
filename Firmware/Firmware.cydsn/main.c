@@ -21,8 +21,10 @@ CY_ISR(ButtonISR) {
     ButtonInterrupt_ClearPending();
 }
 
+
 int main()
 {
+    systime_Start();
     CyGlobalIntEnable;
     
     debprint_Start();
