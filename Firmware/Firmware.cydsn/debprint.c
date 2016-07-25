@@ -9,7 +9,7 @@ void debprint_Start() {
 }
 
 void debprint(const char *fmt, ...) {
-    char printbuf[512] = {0};
+    char printbuf[60] = {0};
     if(!fmt) {
         return;
     }
