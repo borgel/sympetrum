@@ -83,56 +83,13 @@ void ir_Send(struct ir_Message const *msg) {
         msg->body,
     };
     
-    (void)*msg;
-    
     IRLedControl_Write(1);
-    //CyDelay(5);
-    
-    //IR_Transceiver_WriteTxData(IR_HEADER);
-    //IR_Transceiver_WriteTxData(m.raw);
-    //IR_Transceiver_WriteTxData(IR_FOOTER);
     
     //header implies len is in bytes? seems to be wrong (send trash)
     IR_Transceiver_PutArray(txdata, 2);
     
-    //wait until send complete?
-    //CyDelay(5);
     IRLedControl_Write(0);
 }
-
-/*
-static void ir_PrintMessage(struct ir_Message *const m) {
-    debprint("Message Body: 0x%x\r\n", m->body);
-}
-
-bool ir_Receive(struct ir_Message *msg) {
-    union ir_RawMessage m;
-    
-    m.raw = IR_Transceiver_ReadRxData();
-    //m.raw = __builtin_bswap16(m.raw);
-    
-    debprint("Raw as u16 = 0x%04X\r\n", m.raw);
-    
-    *msg = m.msg;
-    return true;
-    
-    //FIXME re-enable
-    if(ir_ValidateMessage(&m)) {
-        *msg = m.msg;
-        return true;
-    }
-    return false;
-}
-
-static bool ir_ValidateMessage(union ir_RawMessage *msg) {
-    if(!msg) {
-        return false;
-    }
-    
-    //TODO send message twice and make sure both copies match? parity bit?    
-    return true;
-}
-*/
 
 void ir_GiveTime(void){
     if(state.msgState == IRR_MSG_COMPLETE) {
