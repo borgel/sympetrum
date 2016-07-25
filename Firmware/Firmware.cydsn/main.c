@@ -15,7 +15,7 @@
 //TODO move
 static bool docolor = false;
 CY_ISR(ButtonISR) {
-    debprint("Got a button\n");
+    //debprint("Got a button\n");
     
     docolor = true;
     ButtonInterrupt_ClearPending();
@@ -44,24 +44,18 @@ int main()
     //without debounce this sucks
     //ButtonInterrupt_StartEx(ButtonISR);
     
-    struct ir_Message beaconMsg = {.address = id};
+    //static const struct ir_Message beaconMsg = {.body = id};
+    static const struct ir_Message beaconMsg = {.body = 0x3CA5};
     
     for(;;) {
 #ifdef BEACON
         if(count % 100 == 0) {
-            beaconMsg.command = send++;
-            
-            //beaconMsg.address = 0x15;   //0b1 0101
-            //beaconMsg.command = 0x0C;   //0b00 1100
-            beaconMsg.address = 0x1F;
-            beaconMsg.command = 0x3F;
-            
-            debprint("sending addr %d data 0x%0X\r\n", beaconMsg.address, beaconMsg.command);
+            //debprint("sending body 0x%X data 0x%0X\r\n", beaconMsg.body);
             
             ir_Send(&beaconMsg);
             UserLED_Write(!UserLED_Read());
         }
-        CyDelay(10);
+        CyDelay(12);
 #endif
 
 #ifndef BEACON

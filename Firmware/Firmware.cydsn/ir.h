@@ -5,13 +5,12 @@
 #include <stdbool.h>
     
 struct ir_Message {
-    uint8_t address         :5;
-    uint8_t command         :6;
-}__attribute__((packed));
+    uint16_t body;
+};
     
 void ir_Start(void);
 
-void ir_Send(struct ir_Message *msg);
+void ir_Send(struct ir_Message const *msg);
 //bool ir_Receive(struct ir_Message *msg);
 
 void ir_GiveTime(void);

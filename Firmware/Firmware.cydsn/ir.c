@@ -5,57 +5,68 @@
 #include <project.h>
 #include <stdbool.h>
 
-struct ir_state {
-    bool seenFirstBit;
-    bool MessageReceived;
-    
-    int currentBit;
-    uint16_t msgInProgress;
-};
-static const struct ir_state stateNULL = {};
-static struct ir_state state;
 
-//the header always used for a message, 0b11
-#define RC5_HEADER              0x3
+#define IR_HEADER           0x7FFF
+#define IR_FOOTER           0x0000
 
-//this represents a Phillips RC-5 data packet
 union ir_RawMessage {
     uint16_t raw;
-    struct {
-        uint8_t header          :2;
-        uint8_t toggle          :1;
-        struct ir_Message msg;
-        uint8_t footer          :2;
-    }__attribute__((packed));
-}__attribute__((packed));
+    uint8_t array[2];
+};
 
+//#define IR_MSG_LENGTH_BITS      (8 * sizeof(union ir_RawMessage))
+#define IR_MSG_LENGTH_BITS          16
 
-static bool MessageReceived;
+enum IR_RECEIVE_STATE {
+    IRR_IDLE,
+    IRR_MSG_IN_PROGRESS,
+    IRR_MSG_COMPLETE,
+};
+
+struct ir_state {
+    int currentBit;
+    uint16_t incomingBuffer;
+    enum IR_RECEIVE_STATE msgState;
+    union ir_RawMessage msgInProgress;
+};
+static const struct ir_state stateNULL = {
+    .currentBit = 0,
+    .incomingBuffer = 0,
+    .msgState = IRR_IDLE,
+    .msgInProgress.raw = 0,
+};
+static struct ir_state state;
+
+//triggered on rising data clock edge. Sample incoming data to RX the bit
 CY_ISR(IncomingIRISR) {
-    //there is always one trash bit when the system comes up. Ignore it
-    if(state.seenFirstBit) {
-        //sample data in pin and shift into msg
-        //when msg full, set 'msg arrived' flag
+    if(state.msgState == IRR_IDLE) {
+        state.incomingBuffer <<= 1;
+        state.incomingBuffer |= (Pin_rx_decoded_data_Read() & 0x1);
         
-        //Pin_rx_decoded_data_Read
-        state.msgInProgress |= Pin_rx_decoded_data_Read();
-        state.msgInProgress <<= 1;
-        
-        state.currentBit++;
-        //TODO macro this
-        if(state.currentBit == 16) {
-            state.MessageReceived = true;
+        //check if we have a start sequence
+        if(state.incomingBuffer == IR_HEADER) {
+            state.msgState = IRR_MSG_IN_PROGRESS;
+            state.msgInProgress.raw = 0;
+            state.currentBit = 0;
+            
+            //FIXME needed?
+            state.incomingBuffer = 0;
         }
     }
-    else {
-        state.seenFirstBit = true;
+    
+    if(state.msgState == IRR_MSG_IN_PROGRESS) {
+        state.msgInProgress.raw <<= 1;
+        state.msgInProgress.raw |= (Pin_rx_decoded_data_Read() & 0x1);
+        
+        state.currentBit++;
+        
+        if(state.currentBit > IR_MSG_LENGTH_BITS) {
+            state.msgState = IRR_MSG_COMPLETE;
+        }
     }
     
     IRDataIncomingInter_ClearPending();
 }
-
-
-static bool ir_ValidateMessage(union ir_RawMessage *msg);
 
 void ir_Start(void) {
     state = stateNULL;
@@ -63,31 +74,37 @@ void ir_Start(void) {
     IR_Transceiver_Start();
     PWM_1_Start();
     IRLedControl_Write(0);
-    MessageReceived = false;
     IRDataIncomingInter_StartEx(IncomingIRISR);
 }
 
-void ir_Send(struct ir_Message *msg) {
-    union ir_RawMessage m = {
-        .header = RC5_HEADER,
-        .toggle = 1,
-        .msg = *msg, 
-        .footer = RC5_HEADER,
+void ir_Send(struct ir_Message const *msg) {
+    uint16_t txdata[] = {
+        IR_HEADER,
+        msg->body,
     };
     
+    (void)*msg;
+    
     IRLedControl_Write(1);
-    //FIXME needed?
-    //m.raw = __builtin_bswap16(m.raw);
+    //CyDelay(5);
+    
+    //IR_Transceiver_WriteTxData(IR_HEADER);
     //IR_Transceiver_WriteTxData(m.raw);
-    IR_Transceiver_WriteTxData(0x55AA);
+    //IR_Transceiver_WriteTxData(IR_FOOTER);
+    
+    //header implies len is in bytes? seems to be wrong (send trash)
+    IR_Transceiver_PutArray(txdata, 2);
+    
+    //wait until send complete?
+    //CyDelay(5);
     IRLedControl_Write(0);
 }
 
+/*
 static void ir_PrintMessage(struct ir_Message *const m) {
-    debprint("Addr: 0x%x - Data 0x%x\r\n", m->address, m->command);
+    debprint("Message Body: 0x%x\r\n", m->body);
 }
 
-/*
 bool ir_Receive(struct ir_Message *msg) {
     union ir_RawMessage m;
     
@@ -106,44 +123,29 @@ bool ir_Receive(struct ir_Message *msg) {
     }
     return false;
 }
-*/
 
 static bool ir_ValidateMessage(union ir_RawMessage *msg) {
     if(!msg) {
         return false;
     }
     
-    //TODO use toggle bit as parity bit?
-    
-    if(msg->header != RC5_HEADER) {
-        return false;
-    }
+    //TODO send message twice and make sure both copies match? parity bit?    
     return true;
 }
+*/
 
 void ir_GiveTime(void){
-    if(state.MessageReceived) {
-        debprint("16 bits have been clocked in...\r\n");
-        debprint("Raw as u16 = 0x%04X\r\n", state.msgInProgress);
-        
-        state.currentBit = 0;
-        state.msgInProgress = 0;
-        
-        //debprint("%d\r\n", Pin_rx_decoded_data_Read());
-        
-        /*
-        struct ir_Message m;
-        ir_Receive(&m);
-        
-        debprint("Message received! Contents are...\r\n\t");
-        ir_PrintMessage(&m);
+    if(state.msgState == IRR_MSG_COMPLETE) {
+        //debprint("16 bits have been clocked in...\r\n");
+        debprint("0x%04X\r\n", state.msgInProgress.raw);
         
         
         //TODO react
+        //TODO enqueue message into incoming msg buffer
         
-        led_DisplayPattern();
-        */
         
-        state.MessageReceived = false;
+        UserLED_Write(!UserLED_Read());
+        
+        state.msgState = IRR_IDLE;
     }
 }
