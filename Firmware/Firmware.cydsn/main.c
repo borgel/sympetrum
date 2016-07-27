@@ -9,6 +9,7 @@
 #include "leds.h"
 #include "rng.h"
 #include "patterns.h"
+#include "systime.h"
 
 //#define BEACON
 
