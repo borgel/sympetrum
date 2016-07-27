@@ -9,9 +9,9 @@
 #include "leds.h"
 #include "rng.h"
 #include "patterns.h"
+#include "beacon.h"
 #include "systime.h"
 
-//#define BEACON
 
 //TODO move
 static bool docolor = false;
@@ -36,35 +36,17 @@ int main()
     
     uint8_t id = bid_GetID();
     rng_Start(id);
+    beacon_Start(id);
     
     patterns_Start();
     
     debprint("Board ID = 0x%x\r\n", id);
     
-    uint8_t count, send;
-    count = send = 0;
-    
     //without debounce this sucks
     //ButtonInterrupt_StartEx(ButtonISR);
     
-    //static const struct ir_Message beaconMsg = {.body = id};
-    static const struct ir_Message beaconMsg = {.body = 0x3CA5};
-    
     for(;;) {
-#ifdef BEACON
-        if(count % 100 == 0) {
-            //debprint("sending body 0x%X data 0x%0X\r\n", beaconMsg.body);
-            
-            ir_Send(&beaconMsg);
-            UserLED_Write(!UserLED_Read());
-        }
-        CyDelay(12);
-#endif
-
-#ifndef BEACON
         ir_GiveTime();
-#endif
-        
-        count++;
+        beacon_GiveTime();
     }
 }
