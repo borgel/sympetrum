@@ -8,14 +8,15 @@ static systime_t time;
 
 //TODO only tick on rollover, and check timer's value every get time
 CY_ISR(SystimeTickCB) {
-    time++;
-    
 #ifdef USE_WDT_SYSCLK
     //cleared in sys interrupt handler?
     CySysWdtClearInterrupt(CY_SYS_WDT_COUNTER0_INT);
 #else
+    SystimeTimer_ClearInterrupt(SystimeTimer_INTR_MASK_TC);
     SystimeTickInterrupt_ClearPending();
 #endif//USE_WDT_SYSCLK
+
+    time++;    
 }
 
 void systime_Start(void) {
