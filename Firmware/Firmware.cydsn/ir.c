@@ -1,6 +1,7 @@
 #include "ir.h"
 #include "leds.h"
 #include "debprint.h"
+#include "systime.h"
 
 #include <project.h>
 #include <stdbool.h>
@@ -26,12 +27,16 @@ struct ir_state {
     uint16_t incomingBuffer;
     enum IR_RECEIVE_STATE msgState;
     union ir_RawMessage msgInProgress;
+    
+    
+    struct ir_Message const *msgToIgnore;
 };
 static const struct ir_state stateNULL = {
     .currentBit = 0,
     .incomingBuffer = 0,
     .msgState = IRR_IDLE,
     .msgInProgress.raw = 0,
+    .msgToIgnore = 0,
 };
 static struct ir_state state;
 
@@ -64,13 +69,21 @@ CY_ISR(IncomingIRISR) {
     IRDataIncomingInter_ClearPending();
 }
 
-void ir_Start(void) {
+void ir_Start() {
     state = stateNULL;
     
     IR_Transceiver_Start();
     PWM_1_Start();
     IRLedControl_Write(0);
     IRDataIncomingInter_StartEx(IncomingIRISR);
+}
+
+/*
+When receiving data, if this message comes in ignore it. Useful for
+ignoring your own reflected glory.
+*/
+void ir_SetBeaconToIgnore(struct ir_Message const *msg) {
+    state.msgToIgnore = msg;
 }
 
 void ir_Send(struct ir_Message const *msg) {
@@ -90,17 +103,17 @@ void ir_Send(struct ir_Message const *msg) {
 
 void ir_GiveTime(void){
     if(state.msgState == IRR_MSG_COMPLETE) {
-        //debprint("16 bits have been clocked in...\r\n");
-        //debprint("0x%04X\r\n", state.msgInProgress.raw);
-        //iprintf("0x%x\r\n", state.msgInProgress.raw);
-        
-        
-        //TODO react
-        //TODO enqueue message into incoming msg buffer
-        
-        
-        UserLED_Write(!UserLED_Read());
-        
+        if(state.msgToIgnore && state.msgToIgnore->body == state.msgInProgress.raw) {
+            debprint("Ignoring msg at %dMS\r\n", systime_GetTimeMS());
+        }
+        else {
+            debprint("Got an IR beacon: 0x%04X @ %dMS\r\n", state.msgInProgress.raw, systime_GetTimeMS());
+            
+            //TODO react
+            //TODO enqueue message into incoming msg buffer
+            
+            UserLED_Write(!UserLED_Read());
+        }
         state.msgState = IRR_IDLE;
     }
 }

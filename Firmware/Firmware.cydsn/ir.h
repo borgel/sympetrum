@@ -12,6 +12,7 @@ void ir_Start(void);
 
 void ir_Send(struct ir_Message const *msg);
 //bool ir_Receive(struct ir_Message *msg);
+void ir_SetBeaconToIgnore(struct ir_Message const *msg);
 
 void ir_GiveTime(void);
 

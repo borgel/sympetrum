@@ -8,18 +8,20 @@
 
 struct beacon_State {
     systime_t lastBeacon;
-    uint8_t id;
+    struct ir_Message beaconMsg;
 };
 static struct beacon_State state = {};
 
 void beacon_Start(uint8_t boardID) {
     state.lastBeacon = 0;
-    state.id = boardID;
+    state.beaconMsg.body = boardID;
+    
+    //make sure IR knows what to ignore
+    ir_SetBeaconToIgnore(&state.beaconMsg);
 }
 
 static void beacon_Send(void) {
-    const struct ir_Message beaconMsg = {.body = state.id};
-    ir_Send(&beaconMsg);
+    ir_Send(&state.beaconMsg);
 }
 
 void beacon_GiveTime(void) {
