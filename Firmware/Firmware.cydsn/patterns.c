@@ -16,9 +16,13 @@ struct pattern_AnimationState {
 struct pattern_AnimationState animation[LED_CHAIN_LENGTH] = {};
 
 struct pattern_State {
+    bool permutePattern;
     int framesSinceTargetChange;
 };
-static const struct pattern_State stateNull = {};
+static const struct pattern_State stateNull = {
+    .permutePattern = false,
+    .framesSinceTargetChange = 0
+};
 static struct pattern_State state;
 
 void pattern_PermutePattern(void);
@@ -27,7 +31,7 @@ void pattern_PermutePattern(void);
 10Hz animation update ISR
 */
 CY_ISR(animation_FrameISR) {
-    pattern_PermutePattern();
+    state.permutePattern = true;
     
     AnimationTimer_ClearInterrupt(AnimationTimer_INTR_MASK_TC);
     AnimationFrameInterrupt_ClearPending();
@@ -90,4 +94,11 @@ void pattern_PermutePattern(void) {
     }
     
     state.framesSinceTargetChange++;
+}
+
+void patterns_GiveTime(){
+    if(state.permutePattern) {
+        pattern_PermutePattern();
+        state.permutePattern = false;
+    }
 }

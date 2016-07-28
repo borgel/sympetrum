@@ -48,5 +48,6 @@ int main()
     for(;;) {
         ir_GiveTime();
         beacon_GiveTime();
+        patterns_GiveTime();
     }
 }
