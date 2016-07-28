@@ -26,7 +26,7 @@ struct led_data {
     //A = 1
     //B = integer brightness divisor from 0x0 -> 0x1F
     uint8_t       globalHeader;
-    struct color_Color color;
+    struct color_ColorRGB color;
 };
 
 static struct led_data LedState[LED_CHAIN_LENGTH] = {};
@@ -85,7 +85,7 @@ void led_DisplayPattern(void) {
     SPI_LED_SpiUartWriteTxData(0xFF);
 }
 
-void led_SetColor(int index, struct color_Color *const color) {
+void led_SetColor(int index, struct color_ColorRGB *const color) {
     if(index > LED_CHAIN_LENGTH || !color) {
         return;
     }

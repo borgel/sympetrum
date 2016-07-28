@@ -9,8 +9,8 @@
 
 struct pattern_AnimationState {
     int channel;
-    struct color_Color colorTarget;
-    struct color_Color colorCurrent;
+    struct color_ColorRGB colorTarget;
+    struct color_ColorRGB colorCurrent;
     uint8_t stepMagnitude;
 };
 struct pattern_AnimationState animation[LED_CHAIN_LENGTH] = {};
