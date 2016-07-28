@@ -1,6 +1,7 @@
 #include "ir.h"
 #include "leds.h"
 #include "debprint.h"
+#include "beacon.h"
 #include "systime.h"
 
 #include <project.h>
@@ -104,8 +105,8 @@ void ir_GiveTime(void){
         else {
             debprint("Got an IR beacon: 0x%04X @ %dMS\r\n", state.msgInProgress.body, systime_GetTimeMS());
             
-            //TODO react
-            //TODO enqueue message into incoming msg buffer
+            //stash knowledge of this beacon
+            beacon_RecordSeenBeacon(&state.msgInProgress, systime_GetTimeMS());
             
             UserLED_Write(!UserLED_Read());
         }
