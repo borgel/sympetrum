@@ -74,7 +74,7 @@ void pattern_PermutePattern(void) {
     unsigned int i;
     
     if(state.framesSinceTargetChange >= FRAMES_TO_CHANGE_TARGET) {
-        for(i = 0; i < sizeof(animation); i++) {
+        for(i = 0; i < LED_CHAIN_LENGTH; i++) {
             color_GetRandomColor(&animation[i].colorTarget);
         }
         state.framesSinceTargetChange = 0;
