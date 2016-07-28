@@ -9,11 +9,6 @@
 
 #define IR_HEADER           0x7FFF
 #define IR_FOOTER           0x0000
-
-union ir_RawMessage {
-    uint16_t raw;
-};
-
 #define IR_MSG_LENGTH_BITS          16
 
 enum IR_RECEIVE_STATE {
@@ -26,7 +21,7 @@ struct ir_state {
     int currentBit;
     uint16_t incomingBuffer;
     enum IR_RECEIVE_STATE msgState;
-    union ir_RawMessage msgInProgress;
+    struct ir_Message msgInProgress;
     
     
     struct ir_Message const *msgToIgnore;
@@ -35,7 +30,7 @@ static const struct ir_state stateNULL = {
     .currentBit = 0,
     .incomingBuffer = 0,
     .msgState = IRR_IDLE,
-    .msgInProgress.raw = 0,
+    .msgInProgress.body = 0,
     .msgToIgnore = 0,
 };
 static struct ir_state state;
@@ -49,15 +44,15 @@ CY_ISR(IncomingIRISR) {
         //check if we have a start sequence
         if(state.incomingBuffer == IR_HEADER) {
             state.msgState = IRR_MSG_IN_PROGRESS;
-            state.msgInProgress.raw = 0;
+            state.msgInProgress.body = 0;
             state.currentBit = 0;
             state.incomingBuffer = 0;
         }
     }
     
     if(state.msgState == IRR_MSG_IN_PROGRESS) {
-        state.msgInProgress.raw <<= 1;
-        state.msgInProgress.raw |= (Pin_rx_decoded_data_Read() & 0x1);
+        state.msgInProgress.body <<= 1;
+        state.msgInProgress.body |= (Pin_rx_decoded_data_Read() & 0x1);
         
         state.currentBit++;
         
@@ -103,11 +98,11 @@ void ir_Send(struct ir_Message const *msg) {
 
 void ir_GiveTime(void){
     if(state.msgState == IRR_MSG_COMPLETE) {
-        if(state.msgToIgnore && state.msgToIgnore->body == state.msgInProgress.raw) {
+        if(state.msgToIgnore && state.msgToIgnore->body == state.msgInProgress.body) {
             debprint("Ignoring msg at %dMS\r\n", systime_GetTimeMS());
         }
         else {
-            debprint("Got an IR beacon: 0x%04X @ %dMS\r\n", state.msgInProgress.raw, systime_GetTimeMS());
+            debprint("Got an IR beacon: 0x%04X @ %dMS\r\n", state.msgInProgress.body, systime_GetTimeMS());
             
             //TODO react
             //TODO enqueue message into incoming msg buffer
