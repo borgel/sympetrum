@@ -3,12 +3,12 @@
     
 #include <stdint.h>
     
-struct color_PackedColor {
+struct color_Color {
     uint8_t     b;
     uint8_t     g;
     uint8_t     r;
-}__attribute__((packed));
+};
     
-void color_GetRandomColor(struct color_PackedColor* c);
+void color_GetRandomColor(struct color_Color* c);
     
 #endif//COLOR_H__

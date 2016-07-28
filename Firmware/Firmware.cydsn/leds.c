@@ -26,8 +26,8 @@ struct led_data {
     //A = 1
     //B = integer brightness divisor from 0x0 -> 0x1F
     uint8_t       globalHeader;
-    struct color_PackedColor color;
-}__attribute__((packed));
+    struct color_Color color;
+};
 
 static struct led_data LedState[LED_CHAIN_LENGTH] = {};
 
@@ -72,10 +72,11 @@ void led_DisplayPattern(void) {
     SPI_LED_SpiUartWriteTxData(0x00);
     SPI_LED_SpiUartWriteTxData(0x00);
     
-    //TODO LED_CHAIN_LENGTH+1? need to make sure FFs dont make it in
     for(i = 0; i < LED_CHAIN_LENGTH; i++) {
-        //1 LED at a time
-        SPI_LED_SpiUartPutArray((uint8_t*)&LedState[i], sizeof(LedState[0]));
+        SPI_LED_SpiUartWriteTxData(LedState[i].globalHeader);
+        SPI_LED_SpiUartWriteTxData(LedState[i].color.b);
+        SPI_LED_SpiUartWriteTxData(LedState[i].color.g);
+        SPI_LED_SpiUartWriteTxData(LedState[i].color.r);
     }
     
     SPI_LED_SpiUartWriteTxData(0xFF);
@@ -84,7 +85,7 @@ void led_DisplayPattern(void) {
     SPI_LED_SpiUartWriteTxData(0xFF);
 }
 
-void led_SetColor(int index, struct color_PackedColor *const color) {
+void led_SetColor(int index, struct color_Color *const color) {
     if(index > LED_CHAIN_LENGTH || !color) {
         return;
     }

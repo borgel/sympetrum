@@ -7,7 +7,7 @@
 #define                 LED_CHAIN_LENGTH        10
     
 void led_Start(void);
-void led_SetColor(int index, struct color_PackedColor *const color);
+void led_SetColor(int index, struct color_Color *const color);
 void led_DisplayPattern(void);
     
 #endif//LED_H__
