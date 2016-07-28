@@ -16,6 +16,14 @@ struct color_ColorHSV {
 };
     
 void color_GetRandomColor(struct color_ColorRGB* c);
+
+static const struct color_ColorHSV COLOR_HSV_MAXSV = {
+    .h = 0,
+    .s = 255,
+    .v = 255
+};
+
+void color_GetRandomColorH(struct color_ColorHSV* c);
 void color_HSV2RGB(struct color_ColorHSV const *hsv, struct color_ColorRGB *rgb);
     
 #endif//COLOR_H__

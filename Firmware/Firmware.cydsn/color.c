@@ -32,6 +32,14 @@ void color_GetRandomColor(struct color_ColorRGB* c) {
 }
 
 /*
+Gets a random color from the spectrum. Always uses max S and V though.
+*/
+void color_GetRandomColorH(struct color_ColorHSV* c) {
+    *c = COLOR_HSV_MAXSV;
+    c->h = rng_GetByte();
+}
+
+/*
 Algorithm adapted from http://stackoverflow.com/a/6930407.
 */
 void color_HSV2RGB(struct color_ColorHSV const *hsv, struct color_ColorRGB *rgb) {
