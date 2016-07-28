@@ -9,7 +9,7 @@
 /*
 Get a random color weighted towards an extreme in one channel.
 */
-void color_GetRandomColor(struct color_ColorRGB* c) {
+void color_GetRandomColorRGB(struct color_ColorRGB* c) {
     switch(rng_GetByte() % 3) {
     case 0:
         c->r = rng_GetByte();
