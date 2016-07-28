@@ -2,6 +2,7 @@
 #include "systime.h"
 #include "ir.h"
 #include "debprint.h"
+#include "rng.h"
 #include <project.h>
 
 #define         BEACON_INTERVAL_S   (1000 * 15)
@@ -27,8 +28,8 @@ static void beacon_Send(void) {
 void beacon_GiveTime(void) {
     if(systime_GetTimeMS() - state.lastBeacon > BEACON_INTERVAL_S) {
         beacon_Send();
-        state.lastBeacon = systime_GetTimeMS();
         
-        //UART_Debug_UartPutChar('.');
+        //throw in a little jitter in the sub-second range
+        state.lastBeacon = systime_GetTimeMS() - (4 * rng_GetByte());
     }
 }
