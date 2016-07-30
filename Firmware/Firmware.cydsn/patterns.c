@@ -89,6 +89,12 @@ void pattern_PermutePattern(void) {
         uint8_t avgColor;
         float tableFullness = beacon_GetTableData(&avgColor);   
         
+        int newStepMagnitude = 0;
+        //multiply max animation speed by original fullness. Window between default and max step size
+        newStepMagnitude = (float)ANIMATION_STEP_SIZE_MAX * tableFullness;
+        newStepMagnitude = MIN(a->stepMagnitude, ANIMATION_STEP_SIZE_MAX);
+        newStepMagnitude = MAX(ANIMATION_STEP_SIZE_DEFAULT, a->stepMagnitude);
+         
         tableFullness *= BEACON_COLOR_WEIGHT_MULTIPLIER;
         
         for(i = 0; i < LED_CHAIN_LENGTH; i++) {
@@ -100,6 +106,7 @@ void pattern_PermutePattern(void) {
                 (tableFullness * (float)avgColor) + 
                 ((1.0 - tableFullness) * a->colorTarget.h);
             
+            a->stepMagnitude = newStepMagnitude;
             
         }
         
