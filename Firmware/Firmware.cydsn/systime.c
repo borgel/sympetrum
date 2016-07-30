@@ -2,6 +2,9 @@
 
 #include <project.h>
 
+// beacon age math is easier if we pretend to never be younger then 1 minute
+#define SYSTIME_START       (60 * 1000)
+
 #define TIMER_ROLLOVER  65535
 static systime_t time;
 
@@ -13,7 +16,7 @@ CY_ISR(SystimeTimerRollover) {
 }
 
 void systime_Start(void) {
-    time = 0;
+    time = SYSTIME_START;
     
     SystimeClock_Start();
     SystimeTickInterrupt_StartEx(SystimeTimerRollover);

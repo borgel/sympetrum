@@ -2,12 +2,20 @@
 #include "leds.h"
 #include "rng.h"
 #include "debprint.h"
-#include "math.h"
+#include "beacon.h"
 #include "color.h"
+#include "utilities.h"
 
+#include <math.h>
 #include <project.h>
 
 #define FRAMES_TO_CHANGE_TARGET     40  //10 = 1 seconds
+
+#define ANIMATION_STEP_SIZE_DEFAULT 2
+#define ANIMATION_STEP_SIZE_MAX     6
+
+//give extra importance to the shared beacon average color
+#define BEACON_COLOR_WEIGHT_MULTIPLIER      2.0
 
 struct pattern_AnimationState {
     int channel;
@@ -52,7 +60,7 @@ void patterns_Start(void) {
         animation[i].colorCurrent = COLOR_HSV_MAXSV;
         
         //TODO set randomly within range
-        animation[i].stepMagnitude = 2;
+        animation[i].stepMagnitude = ANIMATION_STEP_SIZE_DEFAULT;
     }
     
     //setup the frame interrupt and timer
@@ -75,11 +83,33 @@ Be clever
 */
 void pattern_PermutePattern(void) {
     unsigned int i;
+    struct pattern_AnimationState *a;
     
     if(state.framesSinceTargetChange >= FRAMES_TO_CHANGE_TARGET) {
+        uint8_t avgColor;
+        float tableFullness = beacon_GetTableData(&avgColor);   
+        
+        int newStepMagnitude = 0;
+        //multiply max animation speed by original fullness. Window between default and max step size
+        newStepMagnitude = (float)ANIMATION_STEP_SIZE_MAX * tableFullness;
+        newStepMagnitude = MIN(a->stepMagnitude, ANIMATION_STEP_SIZE_MAX);
+        newStepMagnitude = MAX(ANIMATION_STEP_SIZE_DEFAULT, a->stepMagnitude);
+         
+        tableFullness *= BEACON_COLOR_WEIGHT_MULTIPLIER;
+        
         for(i = 0; i < LED_CHAIN_LENGTH; i++) {
-            color_GetRandomColorH(&animation[i].colorTarget);
+            a = &animation[i];
+            color_GetRandomColorH(&a->colorTarget);
+            
+            //set the target hue to a blend of the RGN value and the table average
+            a->colorTarget.h = 
+                (tableFullness * (float)avgColor) + 
+                ((1.0 - tableFullness) * a->colorTarget.h);
+            
+            a->stepMagnitude = newStepMagnitude;
+            
         }
+        
         state.framesSinceTargetChange = 0;
     }
     
