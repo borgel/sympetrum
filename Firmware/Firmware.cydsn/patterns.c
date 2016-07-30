@@ -2,12 +2,15 @@
 #include "leds.h"
 #include "rng.h"
 #include "debprint.h"
-#include "math.h"
+#include "beacon.h"
 #include "color.h"
 
+#include <math.h>
 #include <project.h>
 
 #define FRAMES_TO_CHANGE_TARGET     40  //10 = 1 seconds
+//2 is a gentle default. 5 is pretty fast
+#define ANIMATION_STEP_SIZE         1
 
 struct pattern_AnimationState {
     int channel;
@@ -52,7 +55,7 @@ void patterns_Start(void) {
         animation[i].colorCurrent = COLOR_HSV_MAXSV;
         
         //TODO set randomly within range
-        animation[i].stepMagnitude = 2;
+        animation[i].stepMagnitude = ANIMATION_STEP_SIZE;
     }
     
     //setup the frame interrupt and timer
@@ -77,9 +80,20 @@ void pattern_PermutePattern(void) {
     unsigned int i;
     
     if(state.framesSinceTargetChange >= FRAMES_TO_CHANGE_TARGET) {
+        uint8_t avgColor;
+        float tableFullness = beacon_GetTableData(&avgColor);
         for(i = 0; i < LED_CHAIN_LENGTH; i++) {
             color_GetRandomColorH(&animation[i].colorTarget);
+            
+            //TODO incorperate visible beacons in targets
+            
+            //v0 progress to hue of visible badge IDs
+            animation[i].colorTarget.h = avgColor;
+            
+            //TODO use a ratio fo the rng color and table color
+            
         }
+        
         state.framesSinceTargetChange = 0;
     }
     
