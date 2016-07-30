@@ -4,13 +4,18 @@
 #include "debprint.h"
 #include "beacon.h"
 #include "color.h"
+#include "utilities.h"
 
 #include <math.h>
 #include <project.h>
 
 #define FRAMES_TO_CHANGE_TARGET     40  //10 = 1 seconds
-//2 is a gentle default. 5 is pretty fast
-#define ANIMATION_STEP_SIZE         1
+
+#define ANIMATION_STEP_SIZE_DEFAULT 2
+#define ANIMATION_STEP_SIZE_MAX     6
+
+//give extra importance to the shared beacon average color
+#define BEACON_COLOR_WEIGHT_MULTIPLIER      2.0
 
 struct pattern_AnimationState {
     int channel;
@@ -55,7 +60,7 @@ void patterns_Start(void) {
         animation[i].colorCurrent = COLOR_HSV_MAXSV;
         
         //TODO set randomly within range
-        animation[i].stepMagnitude = ANIMATION_STEP_SIZE;
+        animation[i].stepMagnitude = ANIMATION_STEP_SIZE_DEFAULT;
     }
     
     //setup the frame interrupt and timer
@@ -78,19 +83,23 @@ Be clever
 */
 void pattern_PermutePattern(void) {
     unsigned int i;
+    struct pattern_AnimationState *a;
     
     if(state.framesSinceTargetChange >= FRAMES_TO_CHANGE_TARGET) {
         uint8_t avgColor;
-        float tableFullness = beacon_GetTableData(&avgColor);
+        float tableFullness = beacon_GetTableData(&avgColor);   
+        
+        tableFullness *= BEACON_COLOR_WEIGHT_MULTIPLIER;
+        
         for(i = 0; i < LED_CHAIN_LENGTH; i++) {
-            color_GetRandomColorH(&animation[i].colorTarget);
+            a = &animation[i];
+            color_GetRandomColorH(&a->colorTarget);
             
-            //TODO incorperate visible beacons in targets
+            //set the target hue to a blend of the RGN value and the table average
+            a->colorTarget.h = 
+                (tableFullness * (float)avgColor) + 
+                ((1.0 - tableFullness) * a->colorTarget.h);
             
-            //v0 progress to hue of visible badge IDs
-            animation[i].colorTarget.h = avgColor;
-            
-            //TODO use a ratio fo the rng color and table color
             
         }
         
