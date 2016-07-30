@@ -4,8 +4,14 @@
 #include <stdint.h>
 #include <stdbool.h>
     
+//referring to data stored in the IR messages
+#define IR_MESSAGE_DATA_ID_OFFSET      0
+    
 struct ir_Message {
-    uint16_t body;
+    union {
+        uint16_t body;
+        uint8_t data[2];
+    };
 };
     
 void ir_Start(void);
