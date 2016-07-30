@@ -1,6 +1,8 @@
 #include "patterns.h"
 #include "leds.h"
 #include "rng.h"
+#include "debprint.h"
+#include "math.h"
 #include "color.h"
 
 #include <project.h>
@@ -9,8 +11,8 @@
 
 struct pattern_AnimationState {
     int channel;
-    struct color_ColorRGB colorTarget;
-    struct color_ColorRGB colorCurrent;
+    struct color_ColorHSV colorTarget;
+    struct color_ColorHSV colorCurrent;
     uint8_t stepMagnitude;
 };
 struct pattern_AnimationState animation[LED_CHAIN_LENGTH] = {};
@@ -46,7 +48,8 @@ void patterns_Start(void) {
         //explicitely associate all channels
         animation[i].channel = i;
         
-        color_GetRandomColor(&animation[i].colorTarget);
+        color_GetRandomColorH(&animation[i].colorTarget);
+        animation[i].colorCurrent = COLOR_HSV_MAXSV;
         
         //TODO set randomly within range
         animation[i].stepMagnitude = 2;
@@ -75,7 +78,7 @@ void pattern_PermutePattern(void) {
     
     if(state.framesSinceTargetChange >= FRAMES_TO_CHANGE_TARGET) {
         for(i = 0; i < LED_CHAIN_LENGTH; i++) {
-            color_GetRandomColor(&animation[i].colorTarget);
+            color_GetRandomColorH(&animation[i].colorTarget);
         }
         state.framesSinceTargetChange = 0;
     }
@@ -83,14 +86,12 @@ void pattern_PermutePattern(void) {
     //step all channels towards their target
     for(i = 0; i < LED_CHAIN_LENGTH; i++) {
         //figure out which direction to step in, then do that
-        compareStepColorChannel(&animation[i].colorCurrent.r, animation[i].colorTarget.r, animation[i].stepMagnitude);
-        compareStepColorChannel(&animation[i].colorCurrent.g, animation[i].colorTarget.g, animation[i].stepMagnitude);
-        compareStepColorChannel(&animation[i].colorCurrent.b, animation[i].colorTarget.b, animation[i].stepMagnitude);
+        compareStepColorChannel(&animation[i].colorCurrent.h, animation[i].colorTarget.h, animation[i].stepMagnitude);
     }
     
     //copy the pattern out to be displayed
     for(i = 0; i < LED_CHAIN_LENGTH; i++) {
-        led_SetColor(animation[i].channel, &animation[i].colorCurrent);
+        led_SetColorHSV(animation[i].channel, &animation[i].colorCurrent);
     }
     
     state.framesSinceTargetChange++;

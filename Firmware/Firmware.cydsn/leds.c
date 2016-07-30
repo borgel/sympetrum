@@ -85,7 +85,7 @@ void led_DisplayPattern(void) {
     SPI_LED_SpiUartWriteTxData(0xFF);
 }
 
-void led_SetColor(int index, struct color_ColorRGB *const color) {
+static void led_SetColorRGB(int index, struct color_ColorRGB *const color) {
     if(index > LED_CHAIN_LENGTH || !color) {
         return;
     }
@@ -107,4 +107,11 @@ void led_SetColor(int index, struct color_ColorRGB *const color) {
     color->b = (color->b < LED_FLICKER_THRESHOLD) ? (color->b * 3) : color->b;
     
     LedState[index].color = *color;
+}
+
+void led_SetColorHSV(int index, struct color_ColorHSV *const color) {
+    struct color_ColorRGB rgb;
+    
+    color_HSV2RGB(color, &rgb);
+    led_SetColorRGB(index, &rgb);
 }

@@ -3,13 +3,25 @@
 
 #include "color.h"
 #include "rng.h"
+#include "math.h"
 
 #include <project.h>
+
+#define MAX(a,b) \
+   ({ __typeof__ (a) _a = (a); \
+       __typeof__ (b) _b = (b); \
+     _a > _b ? _a : _b; })
+
+#define MIN(a,b) \
+   ({ __typeof__ (a) _a = (a); \
+       __typeof__ (b) _b = (b); \
+     _a > _b ? _b : _a; })
+
 
 /*
 Get a random color weighted towards an extreme in one channel.
 */
-void color_GetRandomColor(struct color_ColorRGB* c) {
+void color_GetRandomColorRGB(struct color_ColorRGB* c) {
     switch(rng_GetByte() % 3) {
     case 0:
         c->r = rng_GetByte();
@@ -32,61 +44,72 @@ void color_GetRandomColor(struct color_ColorRGB* c) {
 }
 
 /*
-Algorithm adapted from http://stackoverflow.com/a/6930407.
+Gets a random color from the spectrum. Always uses max S and V though.
+*/
+void color_GetRandomColorH(struct color_ColorHSV* c) {
+    *c = COLOR_HSV_MAXSV;
+    c->h = rng_GetByte();
+}
+
+/*
+Algorithm adapted from https://gist.github.com/hdznrrd/656996. Uses a little libmath.
 */
 void color_HSV2RGB(struct color_ColorHSV const *hsv, struct color_ColorRGB *rgb) {
-    float      hh, p, q, t, ff;
-    long        i;
+    int i;
+    float f,p,q,t;
+    float h, s, v;
+    
+    //expand the u8 hue in range 0->255 to 0->360
+    h = 360.0 * ((float)hsv->h / 255.0);
 
-    if(hsv->s <= 0) {       // < is bogus, just shuts up warnings
-        rgb->r = hsv->v;
-        rgb->g = hsv->v;
-        rgb->b = hsv->v;
+    h = MAX(0.0, MIN(360.0, hsv->h));
+    s = MAX(0.0, MIN(100.0, hsv->s));
+    v = MAX(0.0, MIN(100.0, hsv->v));
+
+    s /= 100;
+    v /= 100;
+
+    if(s == 0) {
+        // Achromatic (grey)
+        rgb->r = rgb->g = rgb->b = round(v*255);
         return;
     }
-    hh = hsv->h;
-    if(hh >= 360.0) {
-        hh = 0.0;
-    }
-    hh /= 60.0;
-    i = (long)hh;
-    ff = hh - i;
-    p = hsv->v * (1.0 - hsv->s);
-    q = hsv->v * (1.0 - (hsv->s * ff));
-    t = hsv->v * (1.0 - (hsv->s * (1.0 - ff)));
 
+    h /= 60; // sector 0 to 5
+    i = floor(h);
+    f = h - i; // factorial part of h
+    p = v * (1 - s);
+    q = v * (1 - s * f);
+    t = v * (1 - s * (1 - f));
     switch(i) {
         case 0:
-            rgb->r = hsv->v;
-            rgb->g = t;
-            rgb->b = p;
+            rgb->r = round(255*v);
+            rgb->g = round(255*t);
+            rgb->b = round(255*p);
             break;
         case 1:
-            rgb->r = q;
-            rgb->g = hsv->v;
-            rgb->b = p;
+            rgb->r = round(255*q);
+            rgb->g = round(255*v);
+            rgb->b = round(255*p);
             break;
         case 2:
-            rgb->r = p;
-            rgb->g = hsv->v;
-            rgb->b = t;
+            rgb->r = round(255*p);
+            rgb->g = round(255*v);
+            rgb->b = round(255*t);
             break;
-
         case 3:
-            rgb->r = p;
-            rgb->g = q;
-            rgb->b = hsv->v;
+            rgb->r = round(255*p);
+            rgb->g = round(255*q);
+            rgb->b = round(255*v);
             break;
         case 4:
-            rgb->r = t;
-            rgb->g = p;
-            rgb->b = hsv->v;
+            rgb->r = round(255*t);
+            rgb->g = round(255*p);
+            rgb->b = round(255*v);
             break;
-        case 5:
-        default:
-            rgb->r = hsv->v;
-            rgb->g = p;
-            rgb->b = q;
-            break;
-        }
+        default: // case 5:
+            rgb->r = round(255*v);
+            rgb->g = round(255*p);
+            rgb->b = round(255*q);
+    }
 }
