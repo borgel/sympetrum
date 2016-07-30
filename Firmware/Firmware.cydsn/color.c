@@ -57,10 +57,14 @@ Algorithm adapted from https://gist.github.com/hdznrrd/656996
 void color_HSV2RGB(struct color_ColorHSV const *hsv, struct color_ColorRGB *rgb) {
     int i;
     float f,p,q,t;
+    float h, s, v;
+    
+    //expand the u8 hue in range 0->255 to 0->360
+    h = 360.0 * ((float)hsv->h / 255.0);
 
-    float h = MAX(0.0, MIN(360.0, hsv->h));
-    float s = MAX(0.0, MIN(100.0, hsv->s));
-    float v = MAX(0.0, MIN(100.0, hsv->v));
+    h = MAX(0.0, MIN(360.0, hsv->h));
+    s = MAX(0.0, MIN(100.0, hsv->s));
+    v = MAX(0.0, MIN(100.0, hsv->v));
 
     s /= 100;
     v /= 100;
