@@ -52,7 +52,7 @@ void color_GetRandomColorH(struct color_ColorHSV* c) {
 }
 
 /*
-Algorithm adapted from https://gist.github.com/hdznrrd/656996
+Algorithm adapted from https://gist.github.com/hdznrrd/656996. Uses a little libmath.
 */
 void color_HSV2RGB(struct color_ColorHSV const *hsv, struct color_ColorRGB *rgb) {
     int i;

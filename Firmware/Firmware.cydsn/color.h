@@ -15,10 +15,12 @@ struct color_ColorHSV {
     uint8_t     v;
 };
 
+#define HSV_CHANNEL_MAX         255
+
 static const struct color_ColorHSV COLOR_HSV_MAXSV = {
     .h = 0,
-    .s = 255,
-    .v = 255
+    .s = HSV_CHANNEL_MAX,
+    .v = HSV_CHANNEL_MAX
 };
 
 void color_GetRandomColorRGB(struct color_ColorRGB* c);
