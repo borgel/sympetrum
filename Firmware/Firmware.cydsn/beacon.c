@@ -3,6 +3,7 @@
 #include "ir.h"
 #include "debprint.h"
 #include "rng.h"
+#include "utilities.h"
 #include <project.h>
 
 #define BEACON_INTERVAL_S           (1000 * 15)
@@ -84,6 +85,14 @@ float beacon_GetTableData(uint8_t *avgColor) {
         }
     }
     
+    //always mix in your own beacon
+    *avgColor += state.beaconMsg.data[IR_MESSAGE_DATA_ID_OFFSET];
+    validBeacons++;
+    
+    //never want more than the max number of beacons
+    validBeacons = MIN(validBeacons, BEACON_TABLE_SIZE);
+    
+    //average including own beacon in count
     *avgColor /= validBeacons;
     
     return ((float)validBeacons / (float)BEACON_TABLE_SIZE);
