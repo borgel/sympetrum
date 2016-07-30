@@ -8,5 +8,6 @@
 void beacon_Start(uint8_t boardID);
 void beacon_GiveTime(void);
 void beacon_RecordSeenBeacon(struct ir_Message const* beacon, systime_t stamp);
+float beacon_GetTableData(uint8_t *avgColor);
     
 #endif//BEACON_H__
