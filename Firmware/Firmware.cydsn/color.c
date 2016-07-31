@@ -4,6 +4,7 @@
 #include "color.h"
 #include "rng.h"
 #include "utilities.h"
+#include "board_id.h"
 #include <math.h>
 
 #include <project.h>
@@ -50,7 +51,7 @@ void color_HSV2RGB(struct color_ColorHSV const *hsv, struct color_ColorRGB *rgb)
     float h, s, v;
     
     //expand the u8 hue in range 0->255 to 0->360
-    h = 360.0 * ((float)hsv->h / 255.0);
+    h = 360.0 * ((float)hsv->h / (float)BOARD_ID_MAX);
 
     h = MAX(0.0, MIN(360.0, hsv->h));
     s = MAX(0.0, MIN(100.0, hsv->s));
