@@ -11,7 +11,7 @@
 
 #define FRAMES_TO_CHANGE_TARGET     40  //10 = 1 seconds
 
-#define ANIMATION_STEP_SIZE_DEFAULT 2
+#define ANIMATION_STEP_SIZE_DEFAULT 1
 #define ANIMATION_STEP_SIZE_MAX     6
 
 //give extra importance to the shared beacon average color
@@ -92,8 +92,8 @@ void pattern_PermutePattern(void) {
         int newStepMagnitude = 0;
         //multiply max animation speed by original fullness. Window between default and max step size
         newStepMagnitude = (float)ANIMATION_STEP_SIZE_MAX * tableFullness;
-        newStepMagnitude = MIN(a->stepMagnitude, ANIMATION_STEP_SIZE_MAX);
-        newStepMagnitude = MAX(ANIMATION_STEP_SIZE_DEFAULT, a->stepMagnitude);
+        newStepMagnitude = MIN(newStepMagnitude, ANIMATION_STEP_SIZE_MAX); 
+        newStepMagnitude = MAX(ANIMATION_STEP_SIZE_DEFAULT, newStepMagnitude);
          
         tableFullness *= BEACON_COLOR_WEIGHT_MULTIPLIER;
         
