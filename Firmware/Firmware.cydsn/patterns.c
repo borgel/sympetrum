@@ -11,7 +11,7 @@
 
 #define FRAMES_TO_CHANGE_TARGET     40  //10 = 1 seconds
 
-#define ANIMATION_STEP_SIZE_DEFAULT 1
+#define ANIMATION_STEP_SIZE_DEFAULT 2
 #define ANIMATION_STEP_SIZE_MAX     6
 
 //give extra importance to the shared beacon average color
@@ -106,7 +106,7 @@ void pattern_PermutePattern(void) {
             
             //set the target hue to a blend of the RGN value and the table average
             a->colorTarget.h = 
-                (tableFullness * (float)avgColor) + 
+                (tableFullness * (float)avgColor) +
                 ((1.0 - tableFullness) * a->colorTarget.h);
             
             a->stepMagnitude = newStepMagnitude;
