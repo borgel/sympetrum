@@ -87,7 +87,10 @@ void pattern_PermutePattern(void) {
     
     if(state.framesSinceTargetChange >= FRAMES_TO_CHANGE_TARGET) {
         uint8_t avgColor;
-        float tableFullness = beacon_GetTableData(&avgColor);   
+        float tableFullness = beacon_GetTableData(&avgColor);
+
+        //badge IDs are from 0->127. Expand that to 0->255
+        avgColor = 255.0 * ((float)avgColor / 127.0);
         
         int newStepMagnitude = 0;
         //multiply max animation speed by original fullness. Window between default and max step size
