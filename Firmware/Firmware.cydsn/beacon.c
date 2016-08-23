@@ -6,12 +6,14 @@
 #include "utilities.h"
 #include <project.h>
 
-#define BEACON_INTERVAL_S           (1000 * 15)
-#define BEACON_MAX_AGE              (BEACON_INTERVAL_S * 2)
+#define BEACON_COLOR_INTERVAL_S     (1000 * 30)
+#define BEACON_INTERVAL_S           (1000 * 3)
+#define BEACON_MAX_AGE              (BEACON_INTERVAL_S * 5)
 #define BEACON_TABLE_SIZE           10
 
 struct beacon_State {
     systime_t lastBeacon;
+    systime_t lastColorUpdate;
     struct ir_Message beaconMsg;
 };
 static struct beacon_State state = {};
@@ -19,8 +21,10 @@ static struct beacon_State state = {};
 static struct beacon_State SeenBeacons[BEACON_TABLE_SIZE];
 
 void beacon_Start(uint8_t boardID) {
+    state.lastColorUpdate = 0;
     state.lastBeacon = 0;
     state.beaconMsg.data[IR_MESSAGE_DATA_ID_OFFSET] = boardID;
+    state.beaconMsg.data[IR_MESSAGE_DATA_HUE_OFFSET] = rng_GetByte();
     
     //make sure IR knows what to ignore
     ir_SetBeaconToIgnore(&state.beaconMsg);
@@ -43,7 +47,7 @@ void beacon_RecordSeenBeacon(struct ir_Message const* beacon, systime_t stamp) {
         
         //FIXME do we want this? it works fine without it right?
         //if we've seen this beacon before, always update it instead of appending
-        if(b->beaconMsg.body == beacon->body) {
+        if(b->beaconMsg.data[IR_MESSAGE_DATA_ID_OFFSET] == beacon->data[IR_MESSAGE_DATA_ID_OFFSET]) {
             oldestIndex = i;
             break;
         }
@@ -80,20 +84,20 @@ float beacon_GetTableData(uint8_t *avgColor) {
             memset(&SeenBeacons[i], 0, sizeof(SeenBeacons[0]));
         }
         else {
-            *avgColor += SeenBeacons[i].beaconMsg.data[IR_MESSAGE_DATA_ID_OFFSET];
+            *avgColor += SeenBeacons[i].beaconMsg.data[IR_MESSAGE_DATA_HUE_OFFSET];
             validBeacons++;
         }
     }
     
     //always mix in your own beacon
-    *avgColor += state.beaconMsg.data[IR_MESSAGE_DATA_ID_OFFSET];
+    *avgColor += state.beaconMsg.data[IR_MESSAGE_DATA_HUE_OFFSET];
     validBeacons++;
     
     //never want more than the max number of beacons
     validBeacons = MIN(validBeacons, BEACON_TABLE_SIZE);
     
     //average including own beacon in count
-    *avgColor /= validBeacons;
+    //*avgColor /= validBeacons;
     
     return ((float)validBeacons / (float)BEACON_TABLE_SIZE);
 }
@@ -103,6 +107,12 @@ static void beacon_Send(void) {
 }
 
 void beacon_GiveTime(void) {
+    if(systime_GetTimeMS() - state.lastColorUpdate > BEACON_COLOR_INTERVAL_S) { 
+        state.beaconMsg.data[IR_MESSAGE_DATA_HUE_OFFSET] = rng_GetByte();
+        
+        state.lastColorUpdate = systime_GetTimeMS();
+    }
+    
     if(systime_GetTimeMS() - state.lastBeacon > BEACON_INTERVAL_S) {
         beacon_Send();
         
