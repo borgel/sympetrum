@@ -103,14 +103,16 @@ void pattern_PermutePattern(void) {
         
         for(i = 0; i < LED_CHAIN_LENGTH; i++) {
             a = &animation[i];
-            color_GetRandomColorH(&a->colorTarget);
+            //color_GetRandomColorH(&a->colorTarget);
             
             //set the target hue to a blend of the RGN value and the table average
+            /*
             a->colorTarget.h = 
                 (tableFullness * (float)avgColor) +
                 ((1.0 - tableFullness) * a->colorTarget.h);
+            */
             
-            //a->colorTarget.h = avgColor;
+            a->colorTarget.h += 10;
             
             a->stepMagnitude = newStepMagnitude;
             
