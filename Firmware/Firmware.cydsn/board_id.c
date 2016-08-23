@@ -5,7 +5,7 @@ uint8_t bid_GetID(void) {
     uint8_t id;
     
     //set straps to high so we can read which are connected
-    BoardIDStraps_Write(0xFF);
+    BoardIDStraps_Write(0xFE);
     
     id = BoardIDStraps_Read();
     

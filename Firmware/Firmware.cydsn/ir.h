@@ -6,6 +6,7 @@
     
 //referring to data stored in the IR messages
 #define IR_MESSAGE_DATA_ID_OFFSET      0
+#define IR_MESSAGE_DATA_HUE_OFFSET     1
     
 struct ir_Message {
     union {

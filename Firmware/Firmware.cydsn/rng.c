@@ -7,8 +7,9 @@ void rng_Start(uint8_t seed) {
     
     PRS_1_Start();
     
-    int16_t v = BatterySenseADC_GetResult16(0);
-    PRS_1_ResetSeedInit(seed | v);
+    //int16_t v = BatterySenseADC_GetResult16(0);
+    //PRS_1_ResetSeedInit(seed | v);
+    PRS_1_ResetSeedInit(seed);
 }
 
 uint8_t rng_GetByte(void) {

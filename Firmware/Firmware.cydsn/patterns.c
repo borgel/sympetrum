@@ -89,8 +89,9 @@ void pattern_PermutePattern(void) {
         uint8_t avgColor;
         float tableFullness = beacon_GetTableData(&avgColor);
 
+        //now that we are sharing color bytes directly we dont need to scale
         //badge IDs are from 0->127. Expand that to 0->255
-        avgColor = 255.0 * ((float)avgColor / 127.0);
+        //avgColor = 255.0 * ((float)avgColor / 127.0);
         
         int newStepMagnitude = 0;
         //multiply max animation speed by original fullness. Window between default and max step size
@@ -108,6 +109,8 @@ void pattern_PermutePattern(void) {
             a->colorTarget.h = 
                 (tableFullness * (float)avgColor) +
                 ((1.0 - tableFullness) * a->colorTarget.h);
+            
+            //a->colorTarget.h = avgColor;
             
             a->stepMagnitude = newStepMagnitude;
             
